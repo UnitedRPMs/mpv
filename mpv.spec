@@ -1,18 +1,10 @@
 # ZSH completion
 %global         _zshdir %{_datadir}/zsh/site-functions
-# F24 fix
-%if 0%{?fedora} >= 23
-BuildRequires:  perl-Math-BigInt
-BuildRequires:  perl-Math-BigRat
-%endif
-%if 0%{?fedora} >= 24
-BuildRequires:  perl-Encode
-%endif
 
 Name:           mpv
 Epoch:          1
 Version:        0.17.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A free, open source, and cross-platform media player
 
 License:        GPLv2+
@@ -63,9 +55,15 @@ BuildRequires:  pkgconfig(xscrnsaver)
 BuildRequires:  pkgconfig(xkbcommon)
 BuildRequires:  pkgconfig(xv)
 BuildRequires:  pkgconfig(zlib)
-BuildRequires:  perl(Math::BigInt)
-BuildRequires:  perl(Math::BigRat)
 BuildRequires:  python-docutils
+# F24 fix
+%if 0%{?fedora} >= 23
+BuildRequires:  perl-Math-BigInt
+BuildRequires:  perl-Math-BigRat
+%endif
+%if 0%{?fedora} >= 24
+BuildRequires:  perl-Encode
+%endif
 
 Requires:       hicolor-icon-theme
 
@@ -235,6 +233,9 @@ fi
 %{_zshdir}/_%{name}
 
 %changelog
+* Tue Apr 26 2016 Pavlo Rudyi <paulcarroty@riseup.net> - 0.17.0-2
+- Rebuild for Fedora 24 with new depends
+
 * Mon Apr 11 2016 Maxim Orlov <murmansksity@gmail.com> - 1:0.17.0-1.R
 - Update to 0.17.0
 
