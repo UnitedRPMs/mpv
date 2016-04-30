@@ -6,11 +6,12 @@ Epoch:          1
 Version:        0.17.0
 Release:        2%{?dist}
 Summary:        A free, open source, and cross-platform media player
-Group:		Applications/Multimedia
-License:        GPLv2
+
+License:        GPLv2+
 URL:            https://mpv.io/
 Source0:        https://github.com/%{name}-player/%{name}/archive/v%{version}.tar.gz
-
+# Fix rpmlint incorrect-fsf-address
+Patch0:         %{name}-incorrect-fsf-address.patch
 # Main dependencies
 BuildRequires:  pkgconfig(alsa)
 BuildRequires:  pkgconfig(caca)
