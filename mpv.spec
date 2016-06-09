@@ -4,12 +4,13 @@
 Name:           mpv
 Epoch:          1
 Version:        0.17.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A free, open source, and cross-platform media player
 
 License:        GPLv2+
 URL:            https://mpv.io/
 Source0:        https://github.com/%{name}-player/%{name}/archive/v%{version}.tar.gz
+Source1:        mpv
 # Fix rpmlint incorrect-fsf-address
 Patch0:         %{name}-incorrect-fsf-address.patch
 # Main dependencies
@@ -42,7 +43,7 @@ BuildRequires:  pkgconfig(rubberband)
 BuildRequires:  pkgconfig(smbclient)
 BuildRequires:  pkgconfig(uchardet) >= 0.0.5
 BuildRequires:  pkgconfig(vdpau)
-BuildRequires:  waf >= 1.8.17
+BuildRequires:  waf
 BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-cursor)
 BuildRequires:  pkgconfig(wayland-egl)
@@ -56,14 +57,7 @@ BuildRequires:  pkgconfig(xkbcommon)
 BuildRequires:  pkgconfig(xv)
 BuildRequires:  pkgconfig(zlib)
 BuildRequires:  python-docutils
-# F24 fix
-%if 0%{?fedora} >= 23
-BuildRequires:  perl-Math-BigInt
-BuildRequires:  perl-Math-BigRat
-%endif
-%if 0%{?fedora} >= 24
 BuildRequires:  perl-Encode
-%endif
 
 Requires:       hicolor-icon-theme
 
@@ -186,6 +180,10 @@ waf install --destdir=%{buildroot}
 
 %{__rm} -r %{buildroot}%{_docdir}/%{name}
 
+# Bash completion
+mkdir -p %{buildroot}%{_sysconfdir}/bash_completion.d/
+install -m644 %{SOURCE1} %{buildroot}%{_sysconfdir}/bash_completion.d/%{name}
+
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
@@ -215,6 +213,7 @@ fi
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
 %{_datadir}/icons/hicolor/*/apps/%{name}.svg
 %{_datadir}/icons/hicolor/*/apps/%{name}-symbolic.svg
+%{_sysconfdir}/bash_completion.d/%{name}
 %dir %{_sysconfdir}/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}/encoding-profiles.conf
 %{_mandir}/man1/%{name}.1.*
@@ -233,6 +232,9 @@ fi
 %{_zshdir}/_%{name}
 
 %changelog
+* Thu Jun  9 2016 Pavlo Rudyi <paulcarroty@riseup.net> - 0.17.0-3
+- Add bash completion
+
 * Tue Apr 26 2016 Pavlo Rudyi <paulcarroty@riseup.net> - 0.17.0-2
 - Rebuild for Fedora 24 with new depends
 
