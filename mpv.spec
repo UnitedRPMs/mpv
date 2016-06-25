@@ -3,8 +3,8 @@
 
 Name:           mpv
 Epoch:          1
-Version:        0.17.0
-Release:        3%{?dist}
+Version:        0.18.0
+Release:        4%{?dist}
 Summary:        A free, open source, and cross-platform media player
 
 License:        GPLv2+
@@ -57,9 +57,10 @@ BuildRequires:  pkgconfig(xkbcommon)
 BuildRequires:  pkgconfig(xv)
 BuildRequires:  pkgconfig(zlib)
 BuildRequires:  python-docutils
-BuildRequires:  perl-Encode
 BuildRequires:  perl(Math::BigInt)
 BuildRequires:  perl(Math::BigRat)
+BuildRequires:  perl-Encode
+
 Requires:       hicolor-icon-theme
 
 %description
@@ -67,27 +68,27 @@ Mpv is a fork of mplayer2 and MPlayer. It shares some features with the former
 projects while introducing many more.
 
 %package        libs
-Summary:        Shared library for MPV
+Summary:        Shared library
 Obsoletes:      libmpv
 
 %description    libs
 MPV shared library.
 
 %package        libs-devel
-Summary:        Headers for MPV library
+Summary:        Headers for library
 Requires:       %{name}-libs%{?_isa} = %{epoch}:%{version}-%{release}
 
 %description    libs-devel
 Headers for MPV library.
 
 %package        zsh
-Summary:        MPV zsh completion support
+Summary:        MPV zsh completion
 BuildArch:      noarch
 Requires:       %{name} = %{epoch}:%{version}-%{release}
 Requires:       zsh
 
 %description    zsh
-This package provides zsh completion script of MPV.
+Zsh completion script of MPV.
 
 %prep
 %autosetup -p1
@@ -233,6 +234,12 @@ fi
 %{_zshdir}/_%{name}
 
 %changelog
+* Sat Jun 25 2016 Pavlo Rudyi <paulcarroty@riseup.net> - 0.18.0-4
+- Update to 0.18
+
+* Thu Jun  9 2016 Pavlo Rudyi <paulcarroty@riseup.net> - 0.17.0-4
+- Fixed bash completion
+
 * Thu Jun  9 2016 Pavlo Rudyi <paulcarroty@riseup.net> - 0.17.0-3
 - Add bash completion
 
