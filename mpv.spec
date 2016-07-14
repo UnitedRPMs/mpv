@@ -234,6 +234,10 @@ fi
 %{_zshdir}/_%{name}
 
 %changelog
+
+* Thu Jun 30 2016 David Vásquez <davidjeremias82 AT gmail DOT com> - 0.18.0-6
+- Rebuilt for FFmpeg 3.1 
+
 * Sun Jun 26 2016 Pavlo Rudyi <paulcarroty@riseup.net> - 0.18.0-5
 - Mass rebuild with new ffmpeg
 
