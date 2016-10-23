@@ -10,7 +10,7 @@ Summary:        A free, open source, and cross-platform media player
 License:        GPLv2+
 URL:            https://mpv.io/
 Source0:        https://github.com/%{name}-player/%{name}/archive/v%{version}.tar.gz
-Source1:        mpv
+Source1:        https://raw.githubusercontent.com/UnitedRPMs/mpv/master/SOURCES/mpv
 # Fix rpmlint incorrect-fsf-address
 Patch0:         %{name}-incorrect-fsf-address.patch
 # Main dependencies
