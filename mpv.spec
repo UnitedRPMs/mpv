@@ -12,7 +12,7 @@ URL:            https://mpv.io/
 Source0:        https://github.com/%{name}-player/%{name}/archive/v%{version}.tar.gz
 Source1:        https://raw.githubusercontent.com/UnitedRPMs/mpv/master/SOURCES/mpv
 # Fix rpmlint incorrect-fsf-address
-Patch0:         %{name}-incorrect-fsf-address.patch
+Patch0:         https://raw.githubusercontent.com/UnitedRPMs/mpv/master/SOURCES/mpv-incorrect-fsf-address.patch
 # Main dependencies
 BuildRequires:  pkgconfig(alsa)
 BuildRequires:  pkgconfig(caca)
