@@ -4,7 +4,7 @@
 Name:           mpv
 Epoch:          1
 Version:        0.21.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A free, open source, and cross-platform media player
 
 License:        GPLv2+
@@ -234,6 +234,9 @@ fi
 %{_zshdir}/_%{name}
 
 %changelog
+* Fri Oct 21 2016  Pavlo Rudyi <paulcarroty@riseup.net> - 0.21.0-2
+- Mass rebuild
+
 * Fri Oct 21 2016  Pavlo Rudyi <paulcarroty@riseup.net> - 0.21.0-1
 - Update to 0.21
 
