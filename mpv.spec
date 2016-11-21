@@ -1,22 +1,16 @@
-# ZSH completion
-%global         _zshdir %{_datadir}/zsh/site-functions
-
 Name:           mpv
-Epoch:          1
-Version:        0.21.0
-Release:        2%{?dist}
-Summary:        A free, open source, and cross-platform media player
-
+Version:        0.22.0
+Release:        1%{?dist}
+Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
-URL:            https://mpv.io/
-Source0:        https://github.com/%{name}-player/%{name}/archive/v%{version}.tar.gz
-Source1:        https://raw.githubusercontent.com/UnitedRPMs/mpv/master/SOURCES/mpv
-# Fix rpmlint incorrect-fsf-address
-Patch0:         https://raw.githubusercontent.com/UnitedRPMs/mpv/master/SOURCES/mpv-incorrect-fsf-address.patch
-# Main dependencies
+URL:            http://%{name}.io/
+Source0:        https://github.com/%{name}-player/%{name}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
+
+# set defaults for Fedora
+# Patch0:         %{name}-config.patch
+
 BuildRequires:  pkgconfig(alsa)
-BuildRequires:  pkgconfig(caca)
-BuildRequires:  /usr/bin/desktop-file-validate
+BuildRequires:  desktop-file-utils
 BuildRequires:  pkgconfig(dvdnav)
 BuildRequires:  pkgconfig(dvdread)
 BuildRequires:  pkgconfig(egl)
@@ -36,9 +30,10 @@ BuildRequires:  pkgconfig(libguess)
 BuildRequires:  libjpeg-turbo-devel
 BuildRequires:  pkgconfig(libpulse)
 BuildRequires:  pkgconfig(libv4l2)
+BuildRequires:  pkgconfig(libquvi-0.9)
 BuildRequires:  pkgconfig(libva)
-BuildRequires:  pkgconfig(luajit)
-BuildRequires:  pkgconfig(openal)
+BuildRequires:  pkgconfig(lua-5.1)
+BuildRequires:  pkgconfig(sdl2)
 BuildRequires:  pkgconfig(rubberband)
 BuildRequires:  pkgconfig(smbclient)
 BuildRequires:  pkgconfig(uchardet) >= 0.0.5
@@ -51,143 +46,71 @@ BuildRequires:  pkgconfig(wayland-scanner)
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  pkgconfig(xext)
 BuildRequires:  pkgconfig(xinerama)
+BuildRequires:  pkgconfig(xkbcommon)
 BuildRequires:  pkgconfig(xrandr)
 BuildRequires:  pkgconfig(xscrnsaver)
-BuildRequires:  pkgconfig(xkbcommon)
 BuildRequires:  pkgconfig(xv)
 BuildRequires:  pkgconfig(zlib)
 BuildRequires:  python-docutils
+
 BuildRequires:  perl(Math::BigInt)
 BuildRequires:  perl(Math::BigRat)
-BuildRequires:  perl-Encode
+BuildRequires:  perl(Encode)
 
 Requires:       hicolor-icon-theme
+Provides:       mplayer-backend
 
 %description
-Mpv is a fork of mplayer2 and MPlayer. It shares some features with the former
-projects while introducing many more.
+Mpv is a movie player based on MPlayer and mplayer2. It supports a wide variety
+of video file formats, audio and video codecs, and subtitle types. Special
+input URL types are available to read input from a variety of sources other
+than disk files. Depending on platform, a variety of different video and audio
+output methods are supported.
 
-%package        libs
-Summary:        Shared library
-Obsoletes:      libmpv
+%package libs
+Summary: Dynamic library for Mpv frontends
+Provides: libmpv = %{version}-%{release}
+Obsoletes: libmpv < %{version}-%{release}
 
-%description    libs
-MPV shared library.
+%description libs
+This package contains the dynamic library libmpv, which provides access to Mpv.
 
-%package        libs-devel
-Summary:        Headers for library
-Requires:       %{name}-libs%{?_isa} = %{epoch}:%{version}-%{release}
+%package libs-devel
+Summary: Development package for libmpv
+Requires: mpv-libs%{_isa} = %{version}-%{release}
+Provides: libmpv-devel = %{version}-%{release}
+Obsoletes: libmpv-devel < %{version}-%{release}
 
-%description    libs-devel
-Headers for MPV library.
-
-%package        zsh
-Summary:        MPV zsh completion
-BuildArch:      noarch
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires:       zsh
-
-%description    zsh
-Zsh completion script of MPV.
+%description libs-devel
+Libmpv development header files and libraries.
 
 %prep
-%autosetup -p1
+%setup -q
+%patch0 -p1
 
-echo '#!/bin/bash' > ./configure
-chmod +x ./configure
 
 %build
-%configure
+CFLAGS="${RPM_OPT_FLAGS}" \
+LDFLAGS="${RPM_LD_FLAGS}" \
 waf configure \
-          --prefix=%{_prefix} \
-          --bindir=%{_bindir} \
-          --libdir=%{_libdir} \
-          --confdir=%{_sysconfdir}/%{name} \
-          --incdir=%{_includedir} \
-          --datadir=%{_datadir} \
-          --mandir=%{_mandir} \
-          --docdir=%{_docdir}/%{name} \
-          --zshdir=%{_zshdir} \
-          --disable-build-date \
-          --disable-debug-build \
-          --enable-alsa \
-          --enable-audio-input \
-          --enable-caca \
-          --enable-cdda \
-          --enable-dvbin \
-          --enable-dvdnav \
-          --enable-dvdread \
-          --enable-drm \
-          --enable-egl-drm \
-          --enable-egl-x11 \
-          --enable-enca \
-          --enable-encoding \
-          --enable-gbm \
-          --enable-gl \
-          --enable-gl-wayland \
-          --enable-gl-x11 \
-          --enable-html-build \
-          --enable-iconv \
-          --enable-jack \
-          --enable-jpeg \
-          --enable-lcms2 \
-          --enable-libass \
-          --enable-libass-osd \
-          --enable-libarchive \
-          --enable-libavdevice \
-          --enable-libbluray \
-          --enable-libguess \
-          --enable-libmpv-shared \
-          --enable-libsmbclient \
-          --enable-libswresample \
-          --enable-libv4l2 \
-          --enable-lua \
-          --lua=luajit \
-          --enable-manpage-build \
-          --enable-openal \
-          --enable-oss-audio \
-          --enable-plain-gl \
-          --enable-pulse \
-          --enable-rubberband \
-          --enable-shm \
-          --enable-termios \
-          --enable-tv \
-          --enable-tv-v4l2 \
-          --enable-uchardet \
-          --enable-vaapi \
-          --enable-vaapi-drm \
-          --enable-vaapi-glx \
-          --enable-vaapi-hwaccel \
-          --enable-vaapi-wayland \
-          --enable-vaapi-x-egl \
-          --enable-vaapi-x11 \
-          --enable-vdpau \
-          --enable-vdpau-gl-x11 \
-          --enable-vdpau-hwaccel \
-          --enable-wayland \
-          --enable-x11 \
-          --enable-xext \
-          --enable-xinerama \
-          --enable-xrandr \
-          --enable-xss \
-          --enable-xv \
-          --enable-zsh-comp
+    --prefix=%{_prefix} \
+    --bindir=%{_bindir} \
+    --libdir=%{_libdir} \
+    --mandir=%{_mandir} \
+    --docdir=%{_docdir}/%{name} \
+    --confdir=%{_sysconfdir}/%{name} \
+    --disable-build-date \
+    --enable-libmpv-shared \
+    --enable-sdl2 \
+    --enable-encoding
 
-waf build %{?_smp_mflags} -v
+waf -v build %{?_smp_mflags}
 
 %install
 waf install --destdir=%{buildroot}
 
-%{__mv} %{buildroot}%{_docdir}/%{name}/%{name}.html .
-
-%{__rm} -r %{buildroot}%{_docdir}/%{name}
-
-# Bash completion
-mkdir -p %{buildroot}%{_sysconfdir}/bash_completion.d/
-install -m644 %{SOURCE1} %{buildroot}%{_sysconfdir}/bash_completion.d/%{name}
-
-%check
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
+install -Dpm 644 README.md etc/input.conf etc/mpv.conf -t %{buildroot}%{_docdir}/%{name}
 
 %post
 /usr/bin/update-desktop-database &> /dev/null || :
@@ -204,36 +127,34 @@ fi
 /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &> /dev/null || :
 
 %post libs -p /sbin/ldconfig
+
 %postun libs -p /sbin/ldconfig
 
 %files
+%docdir %{_docdir}/%{name}
+%{_docdir}/%{name}
 %license LICENSE Copyright
-# input.conf and mpv.conf files are fully documented and are just examples
-%doc README.md etc/input.conf etc/mpv.conf mpv.html
 %{_bindir}/%{name}
 %{_datadir}/applications/%{name}.desktop
-%{_datadir}/icons/hicolor/*/apps/%{name}.png
-%{_datadir}/icons/hicolor/*/apps/%{name}.svg
-%{_datadir}/icons/hicolor/*/apps/%{name}-symbolic.svg
-%{_sysconfdir}/bash_completion.d/%{name}
+%{_datadir}/icons/hicolor/*/apps/%{name}*.*
+%{_mandir}/man1/%{name}.*
 %dir %{_sysconfdir}/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}/encoding-profiles.conf
-%{_mandir}/man1/%{name}.1.*
 
 %files libs
 %license LICENSE Copyright
-%doc README.md
-%{_libdir}/lib%{name}.so.*
+%{_libdir}/libmpv.so.*
 
 %files libs-devel
 %{_includedir}/%{name}
-%{_libdir}/lib%{name}.so
-%{_libdir}/pkgconfig/%{name}.pc
+%{_libdir}/libmpv.so
+%{_libdir}/pkgconfig/mpv.pc
 
-%files zsh
-%{_zshdir}/_%{name}
 
 %changelog
+* Mon Nov 21 2016  Pavlo Rudyi <paulcarroty@riseup.net> - 0.22.0-1
+- Updated to 0.22
+
 * Fri Oct 21 2016  Pavlo Rudyi <paulcarroty@riseup.net> - 0.21.0-2
 - Mass rebuild
 
@@ -250,7 +171,7 @@ fi
 - Update to 0.18.1
 
 * Thu Jun 30 2016 David Vásquez <davidjeremias82 AT gmail DOT com> - 0.18.0-6
-- Rebuilt for FFmpeg 3.1 
+- Rebuilt for FFmpeg 3.1
 
 * Sun Jun 26 2016 Pavlo Rudyi <paulcarroty@riseup.net> - 0.18.0-5
 - Mass rebuild with new ffmpeg
@@ -434,4 +355,3 @@ fi
 * Mon Aug 19 2013 Miro Hrončok <mhroncok@redhat.com> - 0.1.2-1
 - Initial spec
 - Inspired a lot in mplayer.spec
-
