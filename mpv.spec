@@ -1,7 +1,7 @@
 Name:           mpv
 Epoch:          1
-Version:        0.22.0
-Release:        2%{?dist}
+Version:        0.23.0
+Release:        1%{?dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -153,6 +153,9 @@ fi
 
 
 %changelog
+* Tue Dec 27 2016  Pavlo Rudyi <paulcarroty@riseup.net> - 0.23.0-1
+- Updated to 0.23
+
 * Wed Nov 23 2016  Pavlo Rudyi <paulcarroty@riseup.net> - 0.22.0-2
 - Add Epoch 1 to prevent not-update problem
 
