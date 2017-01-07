@@ -1,7 +1,7 @@
 Name:           mpv
 Epoch:          1
 Version:        0.23.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -70,6 +70,7 @@ output methods are supported.
 
 %package libs
 Summary: Dynamic library for Mpv frontends
+Epoch: 1
 Provides: libmpv = %{version}-%{release}
 Obsoletes: libmpv < %{version}-%{release}
 
@@ -78,6 +79,7 @@ This package contains the dynamic library libmpv, which provides access to Mpv.
 
 %package libs-devel
 Summary: Development package for libmpv
+Epoch: 1
 Requires: mpv-libs%{_isa} = %{version}-%{release}
 Provides: libmpv-devel = %{version}-%{release}
 Obsoletes: libmpv-devel < %{version}-%{release}
@@ -154,7 +156,7 @@ fi
 
 %changelog
 * Tue Dec 27 2016  Pavlo Rudyi <paulcarroty@riseup.net> - 0.23.0-1
-- Updated to 0.23
+- Updated to 0.23-2
 
 * Wed Nov 23 2016  Pavlo Rudyi <paulcarroty@riseup.net> - 0.22.0-2
 - Add Epoch 1 to prevent not-update problem
