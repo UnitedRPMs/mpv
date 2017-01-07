@@ -8,7 +8,7 @@ URL:            http://%{name}.io/
 Source0:        https://github.com/%{name}-player/%{name}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
 
 # set defaults for Fedora
-# Patch0:         %{name}-config.patch
+# Patch0:       %{name}-config.patch
 
 BuildRequires:  pkgconfig(alsa)
 BuildRequires:  desktop-file-utils
@@ -71,8 +71,8 @@ output methods are supported.
 %package libs
 Summary: Dynamic library for Mpv frontends
 Epoch: 1
-Provides: libmpv = %{version}-%{release}
-Obsoletes: libmpv < %{version}-%{release}
+Provides: libmpv = 1:%{version}-%{release}
+Obsoletes: libmpv < 1:%{version}-%{release}
 
 %description libs
 This package contains the dynamic library libmpv, which provides access to Mpv.
@@ -80,9 +80,9 @@ This package contains the dynamic library libmpv, which provides access to Mpv.
 %package libs-devel
 Summary: Development package for libmpv
 Epoch: 1
-Requires: mpv-libs%{_isa} = %{version}-%{release}
-Provides: libmpv-devel = %{version}-%{release}
-Obsoletes: libmpv-devel < %{version}-%{release}
+Requires: mpv-libs%{_isa} = 1:%{version}-%{release}
+Provides: libmpv-devel = 1:%{version}-%{release}
+Obsoletes: libmpv-devel < 1:%{version}-%{release}
 
 %description libs-devel
 Libmpv development header files and libraries.
