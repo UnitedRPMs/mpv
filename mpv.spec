@@ -1,7 +1,7 @@
 Name:           mpv
 Epoch:          1
 Version:        0.25.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -155,6 +155,9 @@ fi
 
 
 %changelog
+
+* Sun May 21 2017 David Vásquez <davidjeremias82 AT gmail DOT com> 0.25.0-2
+- Rebuilt
 
 * Sat Mar 18 2017 David Vásquez <davidjeremias82 AT gmail DOT com> 0.25.0-1
 - Rebuilt for libbluray
