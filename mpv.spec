@@ -1,11 +1,16 @@
+%global gitdate 20170612
+%global commit0 4e663566dda9fea8cbff8e58f65e91863cbf42a4
+%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
+%global gver .git%{shortcommit0}
+
 Name:           mpv
 Epoch:          1
 Version:        0.25.0
-Release:        2%{?dist}
+Release:        3%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
-Source0:        https://github.com/%{name}-player/%{name}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Source0:        https://github.com/%{name}-player/%{name}/archive/%{commit0}.tar.gz#/%{name}-%{version}.tar.gz
 
 # set defaults for Fedora
 # Patch0:       %{name}-config.patch
@@ -88,7 +93,7 @@ Obsoletes: libmpv-devel < 1:%{version}-%{release}
 Libmpv development header files and libraries.
 
 %prep
-%setup -q
+%setup -n %{name}-%{commit0}
 #%patch0 -p1
 
 
@@ -155,6 +160,9 @@ fi
 
 
 %changelog
+
+* Mon Jun 12 2017 David Vásquez <davidjeremias82 AT gmail DOT com> 0.25.0-3.git4e66356
+- Updated to 0.25.0-3.git4e66356
 
 * Sun May 21 2017 David Vásquez <davidjeremias82 AT gmail DOT com> 0.25.0-2
 - Rebuilt
