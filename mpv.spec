@@ -1,12 +1,12 @@
-%global gitdate 20170612
-%global commit0 4e663566dda9fea8cbff8e58f65e91863cbf42a4
+%global gitdate 20170810
+%global commit0 4db82f04502cbcd20d9a975df9dfde91d8c389e3
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
 Name:           mpv
 Epoch:          1
-Version:        0.25.0
-Release:        3%{?gver}%{dist}
+Version:        0.26.0
+Release:        1%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -110,6 +110,9 @@ waf configure \
     --disable-build-date \
     --enable-libmpv-shared \
     --enable-sdl2 \
+    --enable-dvdread \
+    --enable-dvdnav \
+    --enable-cdda \
     --enable-encoding
 
 waf -v build %{?_smp_mflags}
@@ -160,6 +163,9 @@ fi
 
 
 %changelog
+
+* Thu Aug 10 2017 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.26.0-1.git4db82f0
+- Updated to 0.26.0-1.git4db82f0
 
 * Mon Jun 12 2017 David Vásquez <davidjeremias82 AT gmail DOT com> 0.25.0-3.git4e66356
 - Updated to 0.25.0-3.git4e66356
