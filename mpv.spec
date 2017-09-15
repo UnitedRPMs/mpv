@@ -1,11 +1,10 @@
-%global gitdate 20170810
-%global commit0 4db82f04502cbcd20d9a975df9dfde91d8c389e3
+%global commit0 d18f7bb8cddcdb21cef8bcd31cc814683bd0e495
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
 Name:           mpv
 Epoch:          1
-Version:        0.26.0
+Version:        0.27.0
 Release:        1%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
@@ -163,6 +162,9 @@ fi
 
 
 %changelog
+
+* Fri Sep 15 2017 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.27.0-1.gitd18f7bb
+- Updated to 0.27.0-1.gitd18f7bb
 
 * Thu Aug 10 2017 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.26.0-1.git4db82f0
 - Updated to 0.26.0-1.git4db82f0
