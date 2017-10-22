@@ -143,7 +143,7 @@ fi
 %files
 %docdir %{_docdir}/%{name}
 %{_docdir}/%{name}
-%license LICENSE Copyright
+%license LICENSE.GPL Copyright
 %{_bindir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}*.*
@@ -152,7 +152,7 @@ fi
 %config(noreplace) %{_sysconfdir}/%{name}/encoding-profiles.conf
 
 %files libs
-%license LICENSE Copyright
+%license LICENSE.GPL Copyright
 %{_libdir}/libmpv.so.*
 
 %files libs-devel
