@@ -3,16 +3,13 @@
 %global gver .git%{shortcommit0}
 
 Name:           mpv
-Epoch:          1
 Version:        0.27.0
-Release:        3%{?gver}%{dist}
+Release:        4%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
-Source0:        https://github.com/%{name}-player/%{name}/archive/%{commit0}.tar.gz#/%{name}-%{version}.tar.gz
-
-# set defaults for Fedora
-# Patch0:       %{name}-config.patch
+Source0:        https://github.com/mpv-player/mpv/archive/%{commit0}.tar.gz#/%{name}-%{version}.tar.gz
+Provides:	%{name} = 1:%{version}-%{release} 
 
 BuildRequires:  pkgconfig(alsa)
 BuildRequires:  desktop-file-utils
@@ -63,6 +60,7 @@ BuildRequires:  perl(Math::BigRat)
 BuildRequires:  perl(Encode)
 
 Requires:       hicolor-icon-theme
+Requires: 	mpv-libs = %{version}-%{release}
 Provides:       mplayer-backend
 
 %description
@@ -74,29 +72,28 @@ output methods are supported.
 
 %package libs
 Summary: Dynamic library for Mpv frontends
-Epoch: 1
+Provides: %{name}-libs = 1:%{version}-%{release} 
 Provides: libmpv = 1:%{version}-%{release}
-Obsoletes: libmpv < 1:%{version}-%{release}
+
 
 %description libs
 This package contains the dynamic library libmpv, which provides access to Mpv.
 
 %package libs-devel
 Summary: Development package for libmpv
-Epoch: 1
-Requires: mpv-libs%{_isa} = 1:%{version}-%{release}
+Provides: %{name}-devel = 1:%{version}-%{release} 
+Requires: mpv = %{version}-%{release}
 Provides: libmpv-devel = 1:%{version}-%{release}
-Obsoletes: libmpv-devel < 1:%{version}-%{release}
+
 
 %description libs-devel
 Libmpv development header files and libraries.
 
 %prep
-%setup -n %{name}-%{commit0}
-#%patch0 -p1
-
+%setup -n mpv-%{commit0}
 
 %build
+
 CFLAGS="${RPM_OPT_FLAGS}" \
 LDFLAGS="${RPM_LD_FLAGS}" \
 waf configure \
@@ -112,6 +109,9 @@ waf configure \
     --enable-dvdread \
     --enable-dvdnav \
     --enable-cdda \
+    --enable-dvb \
+    --enable-libarchive \
+    --enable-zsh-comp \
     --enable-encoding
 
 waf -v build %{?_smp_mflags}
@@ -150,6 +150,7 @@ fi
 %{_mandir}/man1/%{name}.*
 %dir %{_sysconfdir}/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}/encoding-profiles.conf
+%{_datadir}/zsh/site-functions/_mpv
 
 %files libs
 %license LICENSE.GPL Copyright
@@ -162,6 +163,10 @@ fi
 
 
 %changelog
+
+* Wed Nov 15 2017 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.27.0-4.git60df015
+- Rebuilt for libbluray
+- Deleted epoch tags
 
 * Sat Oct 21 2017 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.27.0-3.git60df015
 - Updated to current commit
