@@ -1,14 +1,24 @@
-%global commit0 60df01512cf88d51b6334c95dab72de734f136fd
+# globals for mpv-build
+%global commit1 cd8832585c96b450598e2fe8ebad006345e8e51d
+
+# globals for ffmpeg
+%global commit2 83e34ae3c2b36e7b20169a8866e3f49294db1f5a
+
+#globals for mpv
+%global commit0 dfac83a81d9fd68d8d856ae460fc5da885714ef5
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
 Name:           mpv
-Version:        0.27.0
-Release:        4%{?gver}%{dist}
+Version:        0.28.0
+Release:        7%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
-Source0:        https://github.com/mpv-player/mpv/archive/%{commit0}.tar.gz#/%{name}-%{version}.tar.gz
+Source0:        https://github.com/mpv-player/mpv-build/archive/%{commit1}.tar.gz#/mpv-build.tar.gz
+Source1:	https://github.com/mpv-player/mpv/archive/%{commit0}.tar.gz#/%{name}.tar.gz
+Source2:	https://github.com/FFmpeg/FFmpeg/archive/%{commit2}.tar.gz#/ffmpeg.tar.gz
+Patch:		_usetarball.patch
 Provides:	%{name} = 1:%{version}-%{release} 
 
 BuildRequires:  pkgconfig(alsa)
@@ -17,7 +27,7 @@ BuildRequires:  pkgconfig(dvdnav)
 BuildRequires:  pkgconfig(dvdread)
 BuildRequires:  pkgconfig(egl)
 BuildRequires:  pkgconfig(enca)
-BuildRequires:  ffmpeg-devel
+#BuildRequires:  ffmpeg-devel
 BuildRequires:  pkgconfig(gbm)
 BuildRequires:  pkgconfig(gl)
 BuildRequires:  pkgconfig(jack)
@@ -59,6 +69,11 @@ BuildRequires:  perl(Math::BigInt)
 BuildRequires:  perl(Math::BigRat)
 BuildRequires:  perl(Encode)
 
+# ffmpeg
+BuildRequires:	xvidcore-devel x264-devel x265-devel lame-devel twolame-devel twolame-devel yasm ladspa-devel libbs2b-devel libmysofa-devel game-music-emu-devel soxr-devel libssh-devel libvpx-devel libvorbis-devel opus-devel libtheora-devel freetype-devel
+
+BuildRequires:	git autoconf make automake libtool
+
 Requires:       hicolor-icon-theme
 Requires: 	mpv-libs = %{version}-%{release}
 Provides:       mplayer-backend
@@ -90,37 +105,88 @@ Provides: libmpv-devel = 1:%{version}-%{release}
 Libmpv development header files and libraries.
 
 %prep
-%setup -n mpv-%{commit0}
+%setup -n mpv-build-%{commit1} -a1 -a2 
+%patch -p1
+mv -f %{name}-%{commit0} $PWD/%{name}
+mv -f FFmpeg-%{commit2} $PWD/ffmpeg
+cp -f %{name}/LICENSE.GPL %{name}/Copyright $PWD/
+
+# Sorry we need avoid to compile some packages
+sed -i 's|scripts/libass-config|#scripts/libass-config|g' build
+sed -i 's|scripts/libass-build|#scripts/libass-build|g' build
+#--------------------------------------------------------------
+
 
 %build
 
-CFLAGS="${RPM_OPT_FLAGS}" \
-LDFLAGS="${RPM_LD_FLAGS}" \
-waf configure \
-    --prefix=%{_prefix} \
-    --bindir=%{_bindir} \
-    --libdir=%{_libdir} \
-    --mandir=%{_mandir} \
-    --docdir=%{_docdir}/%{name} \
-    --confdir=%{_sysconfdir}/%{name} \
-    --disable-build-date \
-    --enable-libmpv-shared \
-    --enable-sdl2 \
-    --enable-dvdread \
-    --enable-dvdnav \
-    --enable-cdda \
-    --enable-dvb \
-    --enable-libarchive \
-    --enable-zsh-comp \
-    --enable-encoding
+# Set ffmpeg/libass/mpv flags
+  _ffmpeg_options=(
+    '--disable-programs'
+    '--enable-ladspa'
+    '--enable-libbs2b'
+    '--enable-libgme'
+    '--enable-libmysofa'
+    '--enable-libsoxr'
+    '--enable-libssh'
+    '--enable-libx264'
+    '--enable-libx265'
+    '--enable-libxvid'
+    '--enable-libmp3lame'
+    '--enable-libtwolame'
+    '--enable-libass'
+    '--enable-libbluray'
+    '--enable-libvpx'
+    '--enable-libvorbis'
+    '--enable-libopus'
+    '--enable-libtheora'
+    '--enable-libfreetype'
+    '--enable-libv4l2'
+    '--enable-gpl'
+    '--enable-nonfree'
+    )
 
-waf -v build %{?_smp_mflags}
+_mpv_options=(
+    '--prefix=%{_prefix}'
+    '--bindir=%{_bindir}'
+    '--libdir=%{_libdir}'
+    '--mandir=%{_mandir}'
+    '--docdir=%{_docdir}/%{name}'
+    '--confdir=%{_sysconfdir}/%{name}'
+    '--disable-build-date'
+    '--enable-libmpv-shared'
+    '--enable-sdl2'
+    '--enable-dvdread'
+    '--enable-dvdnav'
+    '--enable-cdda'
+    '--enable-dvb'
+    '--enable-libarchive'
+    '--enable-zsh-comp'
+    '--disable-lgpl'
+    '--enable-encoding'
+)
+
+
+  echo ${_ffmpeg_options[@]} > ffmpeg_options
+  echo ${_mpv_options[@]} > mpv_options
+
+./rebuild -j4
+
 
 %install
-waf install --destdir=%{buildroot}
+
+echo '#!/bin/sh
+set -e
+
+cd mpv
+./waf install --destdir=%{buildroot}' > scripts/mpv-install
+chmod a+x scripts/mpv-install
+
+./install
 
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
+pushd mpv
 install -Dpm 644 README.md etc/input.conf etc/mpv.conf -t %{buildroot}%{_docdir}/%{name}
+popd
 
 %post
 /usr/bin/update-desktop-database &> /dev/null || :
@@ -163,6 +229,9 @@ fi
 
 
 %changelog
+
+* Sat Jan 13 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.28.0-7.gitdfac83a
+- Updated to 0.28.0-7.gitdfac83a
 
 * Wed Nov 15 2017 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.27.0-4.git60df015
 - Rebuilt for libbluray
