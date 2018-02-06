@@ -11,7 +11,7 @@
 
 Name:           mpv
 Version:        0.28.0
-Release:        7%{?gver}%{dist}
+Release:        8%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -114,6 +114,10 @@ cp -f %{name}/LICENSE.GPL %{name}/Copyright $PWD/
 # Sorry we need avoid to compile some packages
 sed -i 's|scripts/libass-config|#scripts/libass-config|g' build
 sed -i 's|scripts/libass-build|#scripts/libass-build|g' build
+
+# /usr/bin/python will be removed or switched to Python 3 in the future f28
+find ./ -type f -exec sed -i 's|/usr/bin/env python|/usr/bin/env python2|g' {} \;
+
 #--------------------------------------------------------------
 
 
@@ -229,6 +233,9 @@ fi
 
 
 %changelog
+
+* Mon Feb 05 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.28.0-8.gitdfac83a
+- Rebuilt for libcdio
 
 * Sat Jan 13 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.28.0-7.gitdfac83a
 - Updated to 0.28.0-7.gitdfac83a
