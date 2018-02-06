@@ -54,6 +54,7 @@ BuildRequires:  waf
 BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-cursor)
 BuildRequires:  wayland-devel
+BuildRequires:	wayland-protocols-devel
 BuildRequires:  pkgconfig(wayland-egl)
 BuildRequires:  pkgconfig(wayland-scanner)
 BuildRequires:  pkgconfig(x11)
@@ -179,10 +180,16 @@ _mpv_options=(
   echo ${_ffmpeg_options[@]} > ffmpeg_options
   echo ${_mpv_options[@]} > mpv_options
 
+# https://fedoraproject.org/wiki/Changes/Avoid_usr_bin_python_in_RPM_Build#Quick_Opt-Out
+export PYTHON_DISALLOW_AMBIGUOUS_VERSION=0
+
 ./rebuild -j4
 
 
 %install
+
+# https://fedoraproject.org/wiki/Changes/Avoid_usr_bin_python_in_RPM_Build#Quick_Opt-Out
+export PYTHON_DISALLOW_AMBIGUOUS_VERSION=0
 
 echo '#!/bin/sh
 set -e
@@ -240,7 +247,7 @@ fi
 
 %changelog
 * Tue Feb 06 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.28.0-9.gitdfac83a
-- Rebuilt with Wayland support
+- Rebuilt with Wayland support thanks to zakora
 
 * Mon Feb 05 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.28.0-8.gitdfac83a
 - Rebuilt for libcdio
