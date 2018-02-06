@@ -53,6 +53,7 @@ BuildRequires:  pkgconfig(vdpau)
 BuildRequires:  waf
 BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-cursor)
+BuildRequires:  wayland-devel
 BuildRequires:  pkgconfig(wayland-egl)
 BuildRequires:  pkgconfig(wayland-scanner)
 BuildRequires:  pkgconfig(x11)
@@ -167,6 +168,11 @@ _mpv_options=(
     '--enable-zsh-comp'
     '--disable-lgpl'
     '--enable-encoding'
+    '--enable-wayland'
+    '--enable-wayland-scanner'
+    '--enable-wayland-protocols'
+    '--enable-gl-wayland'
+    '--enable-vaapi-wayland'
 )
 
 
@@ -233,6 +239,8 @@ fi
 
 
 %changelog
+* Tue Feb 06 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.28.0-9.gitdfac83a
+- Rebuilt with Wayland support
 
 * Mon Feb 05 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.28.0-8.gitdfac83a
 - Rebuilt for libcdio
