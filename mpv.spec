@@ -5,13 +5,13 @@
 %global commit2 83e34ae3c2b36e7b20169a8866e3f49294db1f5a
 
 #globals for mpv
-%global commit0 dfac83a81d9fd68d8d856ae460fc5da885714ef5
+%global commit0 7214f1f07602bc4be4ad8c147f422e3f6456401b
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
 Name:           mpv
-Version:        0.28.0
-Release:        9%{?gver}%{dist}
+Version:        0.28.2
+Release:        3%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -246,6 +246,10 @@ fi
 
 
 %changelog
+
+* Fri Feb 16 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.28.2-3.git7214f1f
+- Updated to 0.28.2-3.git7214f1f
+
 * Tue Feb 06 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.28.0-9.gitdfac83a
 - Rebuilt with Wayland support thanks to zakora
 
