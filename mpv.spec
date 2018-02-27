@@ -11,7 +11,8 @@
 
 Name:           mpv
 Version:        0.28.2
-Release:        3%{?gver}%{dist}
+Epoch:		1
+Release:        4%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -246,6 +247,9 @@ fi
 
 
 %changelog
+
+* Mon Feb 26 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.28.2-4.git7214f1f
+- Automatic Mass Rebuild
 
 * Fri Feb 16 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.28.2-3.git7214f1f
 - Updated to 0.28.2-3.git7214f1f
