@@ -79,6 +79,7 @@ BuildRequires:	git autoconf make automake libtool
 Requires:       hicolor-icon-theme
 Requires: 	mpv-libs = %{version}-%{release}
 Provides:       mplayer-backend
+Provides: 	mpv = %{version}-%{release}
 
 %description
 Mpv is a movie player based on MPlayer and mplayer2. It supports a wide variety
