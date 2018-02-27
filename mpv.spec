@@ -20,7 +20,6 @@ Source0:        https://github.com/mpv-player/mpv-build/archive/%{commit1}.tar.g
 Source1:	https://github.com/mpv-player/mpv/archive/%{commit0}.tar.gz#/%{name}.tar.gz
 Source2:	https://github.com/FFmpeg/FFmpeg/archive/%{commit2}.tar.gz#/ffmpeg.tar.gz
 Patch:		_usetarball.patch
-Provides:	%{name} = 1:%{version}-%{release} 
 
 BuildRequires:  pkgconfig(alsa)
 BuildRequires:  desktop-file-utils
@@ -90,7 +89,7 @@ output methods are supported.
 
 %package libs
 Summary: Dynamic library for Mpv frontends
-Provides: %{name}-libs = 1:%{version}-%{release} 
+Provides: %{name}-libs = %{version}-%{release} 
 Provides: libmpv = 1:%{version}-%{release}
 
 
@@ -101,7 +100,8 @@ This package contains the dynamic library libmpv, which provides access to Mpv.
 Summary: Development package for libmpv
 Provides: %{name}-devel = 1:%{version}-%{release} 
 Requires: mpv = %{version}-%{release}
-Provides: libmpv-devel = 1:%{version}-%{release}
+Provides: libmpv-devel = %{version}-%{release}
+Provides: %{name}-libs-devel = %{version}-%{release}
 
 
 %description libs-devel
