@@ -12,7 +12,7 @@
 Name:           mpv
 Version:        0.28.2
 Epoch:		1
-Release:        4%{?gver}%{dist}
+Release:        5%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -45,6 +45,7 @@ BuildRequires:  pkgconfig(libv4l2)
 BuildRequires:  pkgconfig(libquvi-0.9)
 BuildRequires:  pkgconfig(libva)
 BuildRequires:  pkgconfig(lua-5.1)
+BuildRequires:  pkgconfig(openssl)
 BuildRequires:  pkgconfig(sdl2)
 BuildRequires:  pkgconfig(rubberband)
 BuildRequires:  pkgconfig(smbclient)
@@ -149,6 +150,7 @@ find ./ -type f -exec sed -i 's|/usr/bin/env python|/usr/bin/env python2|g' {} \
     '--enable-libtheora'
     '--enable-libfreetype'
     '--enable-libv4l2'
+    '--enable-openssl'
     '--enable-gpl'
     '--enable-nonfree'
     )
@@ -248,6 +250,9 @@ fi
 
 
 %changelog
+
+* Thu Apr 19 2018 Ivan Mironov <mironov DOT ivan AT gmail DOT com> 0.28.2-5.git7214f1f
+- Enable OpenSSL to fix support of https streams
 
 * Mon Feb 26 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.28.2-4.git7214f1f
 - Automatic Mass Rebuild
