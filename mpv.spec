@@ -9,16 +9,20 @@
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
+# globals for waf (required for mpv)
+%global waf_release 1.9.8
+
 Name:           mpv
 Version:        0.28.2
 Epoch:		1
-Release:        4%{?gver}%{dist}
+Release:        5%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
 Source0:        https://github.com/mpv-player/mpv-build/archive/%{commit1}.tar.gz#/mpv-build.tar.gz
 Source1:	https://github.com/mpv-player/mpv/archive/%{commit0}.tar.gz#/%{name}.tar.gz
 Source2:	https://github.com/FFmpeg/FFmpeg/archive/%{commit2}.tar.gz#/ffmpeg.tar.gz
+Source3:	https://waf.io/waf-%{waf_release}
 Patch:		_usetarball.patch
 
 BuildRequires:  pkgconfig(alsa)
@@ -45,12 +49,12 @@ BuildRequires:  pkgconfig(libv4l2)
 BuildRequires:  pkgconfig(libquvi-0.9)
 BuildRequires:  pkgconfig(libva)
 BuildRequires:  pkgconfig(lua-5.1)
+BuildRequires:  pkgconfig(openssl)
 BuildRequires:  pkgconfig(sdl2)
 BuildRequires:  pkgconfig(rubberband)
 BuildRequires:  pkgconfig(smbclient)
 BuildRequires:  pkgconfig(uchardet) >= 0.0.5
 BuildRequires:  pkgconfig(vdpau)
-BuildRequires:  waf
 BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-cursor)
 BuildRequires:  wayland-devel
@@ -122,6 +126,9 @@ sed -i 's|scripts/libass-build|#scripts/libass-build|g' build
 # /usr/bin/python will be removed or switched to Python 3 in the future f28
 find ./ -type f -exec sed -i 's|/usr/bin/env python|/usr/bin/env python2|g' {} \;
 
+cp -f %{SOURCE3} $PWD/%{name}/waf
+chmod a+x $PWD/%{name}/waf
+
 #--------------------------------------------------------------
 
 
@@ -149,6 +156,7 @@ find ./ -type f -exec sed -i 's|/usr/bin/env python|/usr/bin/env python2|g' {} \
     '--enable-libtheora'
     '--enable-libfreetype'
     '--enable-libv4l2'
+    '--enable-openssl'
     '--enable-gpl'
     '--enable-nonfree'
     )
@@ -248,6 +256,10 @@ fi
 
 
 %changelog
+
+* Thu Apr 19 2018 Ivan Mironov <mironov DOT ivan AT gmail DOT com> 0.28.2-5.git7214f1f
+- Enable OpenSSL to fix support of https streams
+- Add "waf" into the source tarball (fixes build without network)
 
 * Mon Feb 26 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.28.2-4.git7214f1f
 - Automatic Mass Rebuild
