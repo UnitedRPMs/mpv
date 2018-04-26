@@ -15,7 +15,7 @@
 Name:           mpv
 Version:        0.28.2
 Epoch:		1
-Release:        5%{?gver}%{dist}
+Release:        6%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -256,6 +256,9 @@ fi
 
 
 %changelog
+
+* Thu Apr 26 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.28.2-6.git7214f1f  
+- Automatic Mass Rebuild
 
 * Thu Apr 19 2018 Ivan Mironov <mironov DOT ivan AT gmail DOT com> 0.28.2-5.git7214f1f
 - Enable OpenSSL to fix support of https streams
