@@ -15,7 +15,7 @@
 Name:           mpv
 Version:        0.28.2
 Epoch:		1
-Release:        6%{?gver}%{dist}
+Release:        7%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -62,6 +62,7 @@ BuildRequires:	wayland-protocols-devel
 BuildRequires:  pkgconfig(wayland-egl)
 BuildRequires:  pkgconfig(wayland-scanner)
 BuildRequires:  pkgconfig(x11)
+BuildRequires:  pkgconfig(vulkan)
 BuildRequires:  pkgconfig(xext)
 BuildRequires:  pkgconfig(xinerama)
 BuildRequires:  pkgconfig(xkbcommon)
@@ -256,6 +257,9 @@ fi
 
 
 %changelog
+
+* Wed May 16 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.28.2-7.git7214f1f  
+- Enabled Vulkan
 
 * Thu Apr 26 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.28.2-6.git7214f1f  
 - Automatic Mass Rebuild
