@@ -12,6 +12,15 @@
 # globals for waf (required for mpv)
 %global waf_release 1.9.8
 
+# globals for libass
+%global libass_release 0.14.0
+
+%if 0%{?fedora} >= 29
+%bcond_without system_libass 
+%else
+%bcond_with system_libass
+%endif
+
 Name:           mpv
 Version:        0.28.2
 Epoch:		1
@@ -23,7 +32,7 @@ Source0:        https://github.com/mpv-player/mpv-build/archive/%{commit1}.tar.g
 Source1:	https://github.com/mpv-player/mpv/archive/%{commit0}.tar.gz#/%{name}.tar.gz
 Source2:	https://github.com/FFmpeg/FFmpeg/archive/%{commit2}.tar.gz#/ffmpeg.tar.gz
 Source3:	https://waf.io/waf-%{waf_release}
-Source4:	https://github.com/libass/libass/releases/download/0.14.0/libass-0.14.0.tar.gz
+Source4:	https://github.com/libass/libass/releases/download/%{libass_release}/libass-%{libass_release}.tar.gz
 Patch:		_usetarball.patch
 Patch1:		libass_fix.patch
 
@@ -78,7 +87,7 @@ BuildRequires:  perl(Math::BigInt)
 BuildRequires:  perl(Math::BigRat)
 BuildRequires:  perl(Encode)
 
-%if 0%{?fedora} >= 29
+%if %{with system_libass}
 BuildRequires:	enca-devel 
 BuildRequires:	fontconfig-devel 
 BuildRequires:	fribidi-devel 
@@ -133,13 +142,13 @@ mv -f FFmpeg-%{commit2} $PWD/ffmpeg
 cp -f %{name}/LICENSE.GPL %{name}/Copyright $PWD/
 
 # Sorry we need avoid to compile some packages
-%if 0%{?fedora} <= 28
-sed -i 's|scripts/libass-config|#scripts/libass-config|g' build
-sed -i 's|scripts/libass-build|#scripts/libass-build|g' build
-%else
+%if %{with system_libass}
 mv -f libass-0.14.0 $PWD/libass
 sed -i 's|1.15|1.16|g' $PWD/libass/aclocal.m4
 sed -i 's|1.15|1.16|g' $PWD/libass/configure
+%else
+sed -i 's|scripts/libass-config|#scripts/libass-config|g' build
+sed -i 's|scripts/libass-build|#scripts/libass-build|g' build
 %endif
 
 # /usr/bin/python will be removed or switched to Python 3 in the future f28
