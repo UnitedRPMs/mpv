@@ -144,8 +144,9 @@ cp -f %{name}/LICENSE.GPL %{name}/Copyright $PWD/
 # Sorry we need avoid to compile some packages
 %if %{with system_libass}
 mv -f libass-0.14.0 $PWD/libass
-sed -i 's|1.15|1.16|g' $PWD/libass/aclocal.m4
-sed -i 's|1.15|1.16|g' $PWD/libass/configure
+ver_auto=$( automake --version )
+sed -i 's|1.15|$ver_auto|g' $PWD/libass/aclocal.m4
+sed -i 's|1.15|$ver_auto|g' $PWD/libass/configure
 %else
 sed -i 's|scripts/libass-config|#scripts/libass-config|g' build
 sed -i 's|scripts/libass-build|#scripts/libass-build|g' build
