@@ -76,6 +76,14 @@ BuildRequires:  perl(Math::BigInt)
 BuildRequires:  perl(Math::BigRat)
 BuildRequires:  perl(Encode)
 
+%if 0%{?fedora} >= 29
+BuildRequires:	enca-devel 
+BuildRequires:	fontconfig-devel 
+BuildRequires:	fribidi-devel 
+BuildRequires:	harfbuzz-devel 
+BuildRequires:	libpng-devel
+%endif
+
 # ffmpeg
 BuildRequires:	xvidcore-devel x264-devel x265-devel lame-devel twolame-devel twolame-devel yasm ladspa-devel libbs2b-devel libmysofa-devel game-music-emu-devel soxr-devel libssh-devel libvpx-devel libvorbis-devel opus-devel libtheora-devel freetype-devel
 
@@ -121,8 +129,10 @@ mv -f FFmpeg-%{commit2} $PWD/ffmpeg
 cp -f %{name}/LICENSE.GPL %{name}/Copyright $PWD/
 
 # Sorry we need avoid to compile some packages
+%if 0%{?fedora} <= 28
 sed -i 's|scripts/libass-config|#scripts/libass-config|g' build
 sed -i 's|scripts/libass-build|#scripts/libass-build|g' build
+%endif
 
 # /usr/bin/python will be removed or switched to Python 3 in the future f28
 find ./ -type f -exec sed -i 's|/usr/bin/env python|/usr/bin/env python2|g' {} \;
