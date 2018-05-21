@@ -93,7 +93,7 @@ BuildRequires:	fontconfig-devel
 BuildRequires:	fribidi-devel 
 BuildRequires:	harfbuzz-devel 
 BuildRequires:	libpng-devel
-BuildRequires:	automake
+BuildRequires:	automake >= 1.16.1
 %endif
 
 # ffmpeg
