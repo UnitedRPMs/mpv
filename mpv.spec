@@ -23,6 +23,7 @@ Source0:        https://github.com/mpv-player/mpv-build/archive/%{commit1}.tar.g
 Source1:	https://github.com/mpv-player/mpv/archive/%{commit0}.tar.gz#/%{name}.tar.gz
 Source2:	https://github.com/FFmpeg/FFmpeg/archive/%{commit2}.tar.gz#/ffmpeg.tar.gz
 Source3:	https://waf.io/waf-%{waf_release}
+Source4:	https://github.com/libass/libass/releases/download/0.14.0/libass-0.14.0.tar.gz
 Patch:		_usetarball.patch
 
 BuildRequires:  pkgconfig(alsa)
@@ -122,7 +123,7 @@ Provides: %{name}-libs-devel = %{version}-%{release}
 Libmpv development header files and libraries.
 
 %prep
-%setup -n mpv-build-%{commit1} -a1 -a2 
+%setup -n mpv-build-%{commit1} -a1 -a2 -a4
 %patch -p1
 mv -f %{name}-%{commit0} $PWD/%{name}
 mv -f FFmpeg-%{commit2} $PWD/ffmpeg
@@ -132,6 +133,8 @@ cp -f %{name}/LICENSE.GPL %{name}/Copyright $PWD/
 %if 0%{?fedora} <= 28
 sed -i 's|scripts/libass-config|#scripts/libass-config|g' build
 sed -i 's|scripts/libass-build|#scripts/libass-build|g' build
+%else
+mv -f libass-0.14.0 $PWD/libass
 %endif
 
 # /usr/bin/python will be removed or switched to Python 3 in the future f28
