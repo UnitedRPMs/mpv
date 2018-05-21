@@ -25,6 +25,7 @@ Source2:	https://github.com/FFmpeg/FFmpeg/archive/%{commit2}.tar.gz#/ffmpeg.tar.
 Source3:	https://waf.io/waf-%{waf_release}
 Source4:	https://github.com/libass/libass/releases/download/0.14.0/libass-0.14.0.tar.gz
 Patch:		_usetarball.patch
+Patch1:		libass_fix.patch
 
 BuildRequires:  pkgconfig(alsa)
 BuildRequires:  desktop-file-utils
@@ -83,6 +84,7 @@ BuildRequires:	fontconfig-devel
 BuildRequires:	fribidi-devel 
 BuildRequires:	harfbuzz-devel 
 BuildRequires:	libpng-devel
+BuildRequires:	automake
 %endif
 
 # ffmpeg
@@ -125,6 +127,7 @@ Libmpv development header files and libraries.
 %prep
 %setup -n mpv-build-%{commit1} -a1 -a2 -a4
 %patch -p1
+%patch1 -p1
 mv -f %{name}-%{commit0} $PWD/%{name}
 mv -f FFmpeg-%{commit2} $PWD/ffmpeg
 cp -f %{name}/LICENSE.GPL %{name}/Copyright $PWD/
@@ -135,6 +138,8 @@ sed -i 's|scripts/libass-config|#scripts/libass-config|g' build
 sed -i 's|scripts/libass-build|#scripts/libass-build|g' build
 %else
 mv -f libass-0.14.0 $PWD/libass
+sed -i 's|1.15|1.16|g' $PWD/libass/aclocal.m4
+sed -i 's|1.15|1.16|g' $PWD/libass/configure
 %endif
 
 # /usr/bin/python will be removed or switched to Python 3 in the future f28
@@ -273,6 +278,7 @@ fi
 
 * Wed May 16 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.28.2-7.git7214f1f  
 - Enabled Vulkan
+- Libass bundled for F29/rawhide
 
 * Thu Apr 26 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.28.2-6.git7214f1f  
 - Automatic Mass Rebuild
