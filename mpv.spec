@@ -24,7 +24,7 @@
 Name:           mpv
 Version:        0.28.2
 Epoch:		1
-Release:        7%{?gver}%{dist}
+Release:        8%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -97,7 +97,8 @@ BuildRequires:	automake >= 1.16.1
 %endif
 
 # ffmpeg
-BuildRequires:	xvidcore-devel x264-devel x265-devel lame-devel twolame-devel twolame-devel yasm ladspa-devel libbs2b-devel libmysofa-devel game-music-emu-devel soxr-devel libssh-devel libvpx-devel libvorbis-devel opus-devel libtheora-devel freetype-devel
+BuildRequires:	xvidcore-devel x264-devel lame-devel twolame-devel twolame-devel yasm ladspa-devel libbs2b-devel libmysofa-devel game-music-emu-devel soxr-devel libssh-devel libvpx-devel libvorbis-devel opus-devel libtheora-devel freetype-devel
+BuildRequires: x265-devel >= 2.8
 
 BuildRequires:	git autoconf make automake libtool
 
@@ -284,6 +285,9 @@ fi
 
 
 %changelog
+
+* Sun May 27 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.28.2-8.git7214f1f  
+- Automatic Mass Rebuild
 
 * Wed May 16 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.28.2-7.git7214f1f  
 - Enabled Vulkan
