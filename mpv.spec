@@ -1,30 +1,27 @@
 # globals for mpv-build
-%global commit1 cd8832585c96b450598e2fe8ebad006345e8e51d
+%global commit1 7608d209c3c32c8192feeee51b67c22547a1eb35
 
 # globals for ffmpeg
-%global commit2 83e34ae3c2b36e7b20169a8866e3f49294db1f5a
+%global commit2 0a155c57bd8eb92ccaf7f5857dc6ab276d235846
 
 #globals for mpv
-%global commit0 7214f1f07602bc4be4ad8c147f422e3f6456401b
+%global commit0 ca73b609f6e15885f648b58f4de539105439bff6
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
 # globals for waf (required for mpv)
-%global waf_release 1.9.8
+%global waf_release 2.0.9
 
 # globals for libass
 %global libass_release 0.14.0
 
-%if 0%{?fedora} >= 29
-%bcond_without system_libass 
-%else
 %bcond_with system_libass
-%endif
+
 
 Name:           mpv
-Version:        0.28.2
+Version:        0.29.0
 Epoch:		1
-Release:        8%{?gver}%{dist}
+Release:        1%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -35,6 +32,7 @@ Source3:	https://waf.io/waf-%{waf_release}
 Source4:	https://github.com/libass/libass/releases/download/%{libass_release}/libass-%{libass_release}.tar.gz
 Patch:		_usetarball.patch
 Patch1:		libass_fix.patch
+Patch2:		python_fix.patch
 
 BuildRequires:  pkgconfig(alsa)
 BuildRequires:  desktop-file-utils
@@ -94,6 +92,7 @@ BuildRequires:	fribidi-devel
 BuildRequires:	harfbuzz-devel 
 BuildRequires:	libpng-devel
 BuildRequires:	automake >= 1.16.1
+BuildRequires:	autoconf
 %endif
 
 # ffmpeg
@@ -101,6 +100,7 @@ BuildRequires:	xvidcore-devel x264-devel lame-devel twolame-devel twolame-devel 
 BuildRequires: x265-devel >= 2.8
 
 BuildRequires:	git autoconf make automake libtool
+BuildRequires:	python3-devel
 
 Requires:       hicolor-icon-theme
 Requires: 	mpv-libs = %{version}-%{release}
@@ -138,9 +138,11 @@ Libmpv development header files and libraries.
 %setup -n mpv-build-%{commit1} -a1 -a2 -a4
 %patch -p1
 %patch1 -p1
+
 mv -f %{name}-%{commit0} $PWD/%{name}
 mv -f FFmpeg-%{commit2} $PWD/ffmpeg
 cp -f %{name}/LICENSE.GPL %{name}/Copyright $PWD/
+%patch2 -p1
 
 # Sorry we need avoid to compile some packages
 %if %{with system_libass}
@@ -152,14 +154,11 @@ sed -i 's|scripts/libass-config|#scripts/libass-config|g' build
 sed -i 's|scripts/libass-build|#scripts/libass-build|g' build
 %endif
 
-# /usr/bin/python will be removed or switched to Python 3 in the future f28
-find ./ -type f -exec sed -i 's|/usr/bin/env python|/usr/bin/env python2|g' {} \;
-
 cp -f %{SOURCE3} $PWD/%{name}/waf
 chmod a+x $PWD/%{name}/waf
+sed -i 's|/usr/bin/env python|/usr/bin/python3|g' $PWD/%{name}/waf
 
 #--------------------------------------------------------------
-
 
 %build
 
@@ -207,7 +206,6 @@ _mpv_options=(
     '--enable-libarchive'
     '--enable-zsh-comp'
     '--disable-lgpl'
-    '--enable-encoding'
     '--enable-wayland'
     '--enable-wayland-scanner'
     '--enable-wayland-protocols'
@@ -219,16 +217,10 @@ _mpv_options=(
   echo ${_ffmpeg_options[@]} > ffmpeg_options
   echo ${_mpv_options[@]} > mpv_options
 
-# https://fedoraproject.org/wiki/Changes/Avoid_usr_bin_python_in_RPM_Build#Quick_Opt-Out
-export PYTHON_DISALLOW_AMBIGUOUS_VERSION=0
-
 ./rebuild -j4
 
 
 %install
-
-# https://fedoraproject.org/wiki/Changes/Avoid_usr_bin_python_in_RPM_Build#Quick_Opt-Out
-export PYTHON_DISALLOW_AMBIGUOUS_VERSION=0
 
 echo '#!/bin/sh
 set -e
@@ -269,7 +261,6 @@ fi
 %{_bindir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}*.*
-%{_mandir}/man1/%{name}.*
 %dir %{_sysconfdir}/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}/encoding-profiles.conf
 %{_datadir}/zsh/site-functions/_mpv
@@ -285,6 +276,9 @@ fi
 
 
 %changelog
+
+* Wed Jul 25 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.29.0-1.gitca73b60  
+- Updated to 0.29.0-1.gitca73b60
 
 * Sun May 27 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.28.2-8.git7214f1f  
 - Automatic Mass Rebuild
