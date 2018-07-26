@@ -64,12 +64,14 @@ BuildRequires:  pkgconfig(rubberband)
 BuildRequires:  pkgconfig(smbclient)
 BuildRequires:  pkgconfig(uchardet) >= 0.0.5
 BuildRequires:  pkgconfig(vdpau)
+%if 0%{?fedora} >= 28
 BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-cursor)
 BuildRequires:  wayland-devel
 BuildRequires:	wayland-protocols-devel
 BuildRequires:  pkgconfig(wayland-egl)
 BuildRequires:  pkgconfig(wayland-scanner)
+%endif
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  pkgconfig(vulkan)
 BuildRequires:  pkgconfig(xext)
@@ -206,11 +208,13 @@ _mpv_options=(
     '--enable-libarchive'
     '--enable-zsh-comp'
     '--disable-lgpl'
+%if 0%{?fedora} >= 28
     '--enable-wayland'
     '--enable-wayland-scanner'
     '--enable-wayland-protocols'
     '--enable-gl-wayland'
     '--enable-vaapi-wayland'
+%endif
 )
 
 
@@ -264,6 +268,9 @@ fi
 %dir %{_sysconfdir}/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}/encoding-profiles.conf
 %{_datadir}/zsh/site-functions/_mpv
+%if 0%{?fedora} <= 28
+%{_mandir}/man1/mpv.1.gz
+%endif
 
 %files libs
 %license LICENSE.GPL Copyright
