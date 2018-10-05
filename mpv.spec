@@ -5,7 +5,7 @@
 %global commit2 0a155c57bd8eb92ccaf7f5857dc6ab276d235846
 
 #globals for mpv
-%global commit0 ca73b609f6e15885f648b58f4de539105439bff6
+%global commit0 723fd02919bb3a1249d0566a70cc4d448a1e8ae6
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
@@ -19,7 +19,7 @@
 
 
 Name:           mpv
-Version:        0.29.0
+Version:        0.29.1
 Epoch:		1
 Release:        2%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
@@ -283,6 +283,9 @@ fi
 
 
 %changelog
+
+* Thu Oct 04 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.29.1-2.gitca73b60  
+- Updated to 
 
 * Sun Aug 12 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.29.0-2.gitca73b60  
 - Automatic Mass Rebuild
