@@ -2,7 +2,8 @@
 %global commit1 7608d209c3c32c8192feeee51b67c22547a1eb35
 
 # globals for ffmpeg
-%global commit2 0a155c57bd8eb92ccaf7f5857dc6ab276d235846
+%global commit2 e695b0beba4aab5c1197d1bc96eef1f42635c423
+%global shortcommit2 %(c=%{commit2}; echo ${c:0:7})
 
 #globals for mpv
 %global commit0 723fd02919bb3a1249d0566a70cc4d448a1e8ae6
@@ -21,13 +22,13 @@
 Name:           mpv
 Version:        0.29.1
 Epoch:		1
-Release:        3%{?gver}%{dist}
+Release:        4%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
 Source0:        https://github.com/mpv-player/mpv-build/archive/%{commit1}.tar.gz#/mpv-build.tar.gz
 Source1:	https://github.com/mpv-player/mpv/archive/%{commit0}.tar.gz#/%{name}.tar.gz
-Source2:	https://github.com/FFmpeg/FFmpeg/archive/%{commit2}.tar.gz#/ffmpeg.tar.gz
+Source2:	https://git.ffmpeg.org/gitweb/ffmpeg.git/snapshot/%{commit2}.tar.gz#/ffmpeg.tar.gz
 Source3:	https://waf.io/waf-%{waf_release}
 Source4:	https://github.com/libass/libass/releases/download/%{libass_release}/libass-%{libass_release}.tar.gz
 Patch:		_usetarball.patch
@@ -64,6 +65,7 @@ BuildRequires:  pkgconfig(rubberband)
 BuildRequires:  pkgconfig(smbclient)
 BuildRequires:  pkgconfig(uchardet) >= 0.0.5
 BuildRequires:  pkgconfig(vdpau)
+BuildRequires:	pkgconfig(dav1d)
 %if 0%{?fedora} >= 28
 BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-cursor)
@@ -99,7 +101,11 @@ BuildRequires:	autoconf
 
 # ffmpeg
 BuildRequires:	xvidcore-devel x264-devel lame-devel twolame-devel twolame-devel yasm ladspa-devel libbs2b-devel libmysofa-devel game-music-emu-devel soxr-devel libssh-devel libvpx-devel libvorbis-devel opus-devel libtheora-devel freetype-devel
-BuildRequires: x265-devel >= 2.8
+BuildRequires:	x265-devel >= 2.8
+BuildRequires:	dav1d-devel
+BuildRequires:	nvenc-devel 
+BuildRequires:	nv-codec-headers
+#
 
 BuildRequires:	git autoconf make automake libtool
 BuildRequires:	python3-devel
@@ -142,7 +148,7 @@ Libmpv development header files and libraries.
 %patch1 -p1
 
 mv -f %{name}-%{commit0} $PWD/%{name}
-mv -f FFmpeg-%{commit2} $PWD/ffmpeg
+mv -f ffmpeg-%{shortcommit2} $PWD/ffmpeg
 cp -f %{name}/LICENSE.GPL %{name}/Copyright $PWD/
 %patch2 -p1
 
@@ -187,6 +193,8 @@ sed -i 's|/usr/bin/env python|/usr/bin/python3|g' $PWD/%{name}/waf
     '--enable-libfreetype'
     '--enable-libv4l2'
     '--enable-openssl'
+    '--enable-nvenc --extra-cflags="-I%{_includedir}/nvenc"}'
+    '--enable-libdav1d'
     '--enable-gpl'
     '--enable-nonfree'
     )
@@ -283,6 +291,9 @@ fi
 
 
 %changelog
+
+* Thu Dec 06 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.29.1-4.git723fd02  
+- Enabled dav1d, nvenc, nv-codec-headers
 
 * Fri Oct 12 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.29.1-3.git723fd02  
 - Automatic Mass Rebuild
