@@ -22,7 +22,7 @@
 Name:           mpv
 Version:        0.29.1
 Epoch:		1
-Release:        4%{?gver}%{dist}
+Release:        5%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -102,7 +102,7 @@ BuildRequires:	autoconf
 # ffmpeg
 BuildRequires:	xvidcore-devel x264-devel lame-devel twolame-devel twolame-devel yasm ladspa-devel libbs2b-devel libmysofa-devel game-music-emu-devel soxr-devel libssh-devel libvpx-devel libvorbis-devel opus-devel libtheora-devel freetype-devel
 BuildRequires:	x265-devel >= 2.8
-BuildRequires:	dav1d-devel
+BuildRequires:	dav1d-devel >= 0.1.0
 BuildRequires:	nvenc-devel 
 BuildRequires:	nv-codec-headers
 #
@@ -291,6 +291,9 @@ fi
 
 
 %changelog
+
+* Wed Dec 12 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.29.1-5.git723fd02 
+- Rebuilt for dav1d
 
 * Thu Dec 06 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.29.1-4.git723fd02  
 - Enabled dav1d, nvenc, nv-codec-headers
