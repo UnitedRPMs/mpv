@@ -22,7 +22,7 @@
 Name:           mpv
 Version:        0.29.1
 Epoch:		1
-Release:        5%{?gver}%{dist}
+Release:        6%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -105,6 +105,7 @@ BuildRequires:	x265-devel >= 2.8
 BuildRequires:	dav1d-devel >= 0.1.0
 BuildRequires:	nvenc-devel 
 BuildRequires:	nv-codec-headers
+BuildRequires:  libaom-devel
 #
 
 BuildRequires:	git autoconf make automake libtool
@@ -195,6 +196,7 @@ sed -i 's|/usr/bin/env python|/usr/bin/python3|g' $PWD/%{name}/waf
     '--enable-openssl'
     '--enable-nvenc --extra-cflags="-I%{_includedir}/nvenc"}'
     '--enable-libdav1d'
+    '--enable-libaom'
     '--enable-gpl'
     '--enable-nonfree'
     )
@@ -291,6 +293,9 @@ fi
 
 
 %changelog
+
+* Sat Dec 15 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.29.1-6.git723fd02 
+- Enabled libaom
 
 * Wed Dec 12 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.29.1-5.git723fd02 
 - Rebuilt for dav1d
