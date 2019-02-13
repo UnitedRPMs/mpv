@@ -106,6 +106,7 @@ BuildRequires:	autoconf
 BuildRequires:	xvidcore-devel x264-devel lame-devel twolame-devel twolame-devel yasm ladspa-devel libbs2b-devel libmysofa-devel game-music-emu-devel soxr-devel libssh-devel libvpx-devel libvorbis-devel opus-devel libtheora-devel freetype-devel
 BuildRequires:	x265-devel >= 3.0
 BuildRequires:	dav1d-devel >= 0.1.0
+BuildRequires:	ffnvcodec-devel
 BuildRequires:	nvenc-devel 
 BuildRequires:	nv-codec-headers
 BuildRequires:  libaom-devel
