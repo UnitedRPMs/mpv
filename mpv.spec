@@ -4,7 +4,7 @@
 %global commit1 7608d209c3c32c8192feeee51b67c22547a1eb35
 
 # globals for ffmpeg
-%global commit2 74700e50bf7444930bfc12935bd3e17cd5f766c1
+%global commit2 e695b0beba4aab5c1197d1bc96eef1f42635c423
 %global shortcommit2 %(c=%{commit2}; echo ${c:0:7})
 
 #globals for mpv
