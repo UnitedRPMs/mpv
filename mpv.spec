@@ -197,7 +197,7 @@ sed -i 's|/usr/bin/env python|/usr/bin/python3|g' $PWD/%{name}/waf
     '--enable-libfreetype'
     '--enable-libv4l2'
     '--enable-openssl'
-    '--enable-nvenc --extra-cflags="-I%{_includedir}/nvenc"}'
+    '--enable-nvenc --extra-cflags="-I%{_includedir}/nvenc"'
     '--enable-libdav1d'
     '--enable-libaom'
     '--enable-gpl'
