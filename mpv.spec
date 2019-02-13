@@ -1,3 +1,5 @@
+%global _hardened_build 1
+
 # globals for mpv-build
 %global commit1 7608d209c3c32c8192feeee51b67c22547a1eb35
 
@@ -6,7 +8,7 @@
 %global shortcommit2 %(c=%{commit2}; echo ${c:0:7})
 
 #globals for mpv
-%global commit0 723fd02919bb3a1249d0566a70cc4d448a1e8ae6
+%global commit0 f2e7e81bda653c1f2cb3b27cf867e9195d184ddc
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
@@ -22,7 +24,7 @@
 Name:           mpv
 Version:        0.29.1
 Epoch:		1
-Release:        6%{?gver}%{dist}
+Release:        7%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -70,7 +72,7 @@ BuildRequires:	pkgconfig(dav1d)
 BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-cursor)
 BuildRequires:  wayland-devel
-BuildRequires:	wayland-protocols-devel
+BuildRequires:	pkgconfig(wayland-protocols)
 BuildRequires:  pkgconfig(wayland-egl)
 BuildRequires:  pkgconfig(wayland-scanner)
 %endif
@@ -84,6 +86,7 @@ BuildRequires:  pkgconfig(xscrnsaver)
 BuildRequires:  pkgconfig(xv)
 BuildRequires:  pkgconfig(zlib)
 BuildRequires:  python-docutils
+BuildRequires:	pkgconfig(mujs) >= 1.0.4-2
 
 BuildRequires:  perl(Math::BigInt)
 BuildRequires:  perl(Math::BigRat)
@@ -101,7 +104,7 @@ BuildRequires:	autoconf
 
 # ffmpeg
 BuildRequires:	xvidcore-devel x264-devel lame-devel twolame-devel twolame-devel yasm ladspa-devel libbs2b-devel libmysofa-devel game-music-emu-devel soxr-devel libssh-devel libvpx-devel libvorbis-devel opus-devel libtheora-devel freetype-devel
-BuildRequires:	x265-devel >= 2.8
+BuildRequires:	x265-devel >= 3.0
 BuildRequires:	dav1d-devel >= 0.1.0
 BuildRequires:	nvenc-devel 
 BuildRequires:	nv-codec-headers
@@ -218,6 +221,7 @@ _mpv_options=(
     '--enable-libarchive'
     '--enable-zsh-comp'
     '--disable-lgpl'
+    '--enable-javascript'
 %if 0%{?fedora} >= 28
     '--enable-wayland'
     '--enable-wayland-scanner'
@@ -240,8 +244,10 @@ echo '#!/bin/sh
 set -e
 
 cd mpv
+
 ./waf install --destdir=%{buildroot}' > scripts/mpv-install
 chmod a+x scripts/mpv-install
+
 
 ./install
 
@@ -293,6 +299,10 @@ fi
 
 
 %changelog
+
+* Fri Feb 08 2019 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.29.1-7.git723fd02 
+- Enabled javascript
+- Rebuilt for x265
 
 * Sat Dec 15 2018 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.29.1-6.git723fd02 
 - Enabled libaom
