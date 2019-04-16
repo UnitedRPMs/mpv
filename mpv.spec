@@ -8,7 +8,7 @@
 %global shortcommit2 %(c=%{commit2}; echo ${c:0:7})
 
 #globals for mpv
-%global commit0 f2e7e81bda653c1f2cb3b27cf867e9195d184ddc
+%global commit0 e9fae413fdf8a7760c67399b8cb99ed9944fce40
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
@@ -24,7 +24,7 @@
 Name:           mpv
 Version:        0.29.1
 Epoch:		1
-Release:        7%{?gver}%{dist}
+Release:        8%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -298,6 +298,9 @@ fi
 
 
 %changelog
+
+* Mon Apr 15 2019 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.29.1-8.gite9fae41 
+- Updated to current commit
 
 * Fri Feb 08 2019 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.29.1-7.git723fd02 
 - Enabled javascript
