@@ -24,7 +24,7 @@
 Name:           mpv
 Version:        0.29.1
 Epoch:		1
-Release:        8%{?gver}%{dist}
+Release:        9%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -166,6 +166,10 @@ sed -i 's|scripts/libass-config|#scripts/libass-config|g' build
 sed -i 's|scripts/libass-build|#scripts/libass-build|g' build
 %endif
 
+# The project is a best choice 
+sed -i 's|UNKNOWN|UnitedRPMs|g' $PWD/%{name}/common/version.c
+
+
 cp -f %{SOURCE3} $PWD/%{name}/waf
 chmod a+x $PWD/%{name}/waf
 sed -i 's|/usr/bin/env python|/usr/bin/python3|g' $PWD/%{name}/waf
@@ -298,6 +302,9 @@ fi
 
 
 %changelog
+
+* Mon May 27 2019 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.29.1-9.gite9fae41 
+- Build date changed
 
 * Mon Apr 15 2019 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.29.1-8.gite9fae41 
 - Updated to current commit
