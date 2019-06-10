@@ -24,7 +24,7 @@
 Name:           mpv
 Version:        0.29.1
 Epoch:		1
-Release:        9%{?gver}%{dist}
+Release:        10%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -174,6 +174,10 @@ cp -f %{SOURCE3} $PWD/%{name}/waf
 chmod a+x $PWD/%{name}/waf
 sed -i 's|/usr/bin/env python|/usr/bin/python3|g' $PWD/%{name}/waf
 
+
+# Version fix
+echo "%{version}-git%{shortcommit0}" > $PWD/%{name}/VERSION 
+
 #--------------------------------------------------------------
 
 %build
@@ -302,6 +306,9 @@ fi
 
 
 %changelog
+
+* Mon Jun 10 2019 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.29.1-10.gite9fae41 
+- Version fix
 
 * Mon May 27 2019 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.29.1-9.gite9fae41 
 - Build date changed
