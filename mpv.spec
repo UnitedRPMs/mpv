@@ -75,6 +75,8 @@ BuildRequires:  wayland-devel
 BuildRequires:	pkgconfig(wayland-protocols)
 BuildRequires:  pkgconfig(wayland-egl)
 BuildRequires:  pkgconfig(wayland-scanner)
+BuildRequires:  libplacebo-devel
+BuildRequires:  libshaderc-devel
 %endif
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  pkgconfig(vulkan)
