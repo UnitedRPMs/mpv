@@ -8,7 +8,7 @@
 %global shortcommit2 %(c=%{commit2}; echo ${c:0:7})
 
 #globals for mpv
-%global commit0 e9fae413fdf8a7760c67399b8cb99ed9944fce40
+%global commit0 69c93b6f0e669780cb1883d21d818ee14a590b8e
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
@@ -24,7 +24,7 @@
 Name:           mpv
 Version:        0.29.1
 Epoch:		1
-Release:        11%{?gver}%{dist}
+Release:        12%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -106,7 +106,7 @@ BuildRequires:	autoconf
 
 # ffmpeg
 BuildRequires:	xvidcore-devel x264-devel lame-devel twolame-devel twolame-devel yasm ladspa-devel libbs2b-devel libmysofa-devel game-music-emu-devel soxr-devel libssh-devel libvpx-devel libvorbis-devel opus-devel libtheora-devel freetype-devel
-BuildRequires:	x265-devel >= 3.0
+BuildRequires:	x265-devel >= 3.1.2
 BuildRequires:	libdav1d-devel >= 0.1.0
 BuildRequires:	nvenc-devel 
 BuildRequires:	nv-codec-headers
@@ -308,6 +308,9 @@ fi
 
 
 %changelog
+
+* Sat Aug 03 2019 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.29.1-12.git69c93b6 
+- Rebuilt for x265
 
 * Sat Jun 22 2019 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.29.1-11.gite9fae41 
 - Rebuilt for x265
