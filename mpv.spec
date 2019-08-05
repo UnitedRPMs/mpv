@@ -67,7 +67,7 @@ BuildRequires:  pkgconfig(rubberband)
 BuildRequires:  pkgconfig(smbclient)
 BuildRequires:  pkgconfig(uchardet) >= 0.0.5
 BuildRequires:  pkgconfig(vdpau)
-BuildRequires:	pkgconfig(dav1d)
+BuildRequires:	pkgconfig(dav1d) >= 0.3.1
 %if 0%{?fedora} >= 29
 BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-cursor)
@@ -107,7 +107,6 @@ BuildRequires:	autoconf
 # ffmpeg
 BuildRequires:	xvidcore-devel x264-devel lame-devel twolame-devel twolame-devel yasm ladspa-devel libbs2b-devel libmysofa-devel game-music-emu-devel soxr-devel libssh-devel libvpx-devel libvorbis-devel opus-devel libtheora-devel freetype-devel
 BuildRequires:	x265-devel >= 3.1.2
-BuildRequires:	libdav1d-devel >= 0.1.0
 BuildRequires:	nvenc-devel 
 BuildRequires:	nv-codec-headers
 BuildRequires:  libaom-devel
