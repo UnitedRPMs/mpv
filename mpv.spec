@@ -292,7 +292,7 @@ fi
 %dir %{_sysconfdir}/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}/encoding-profiles.conf
 %{_datadir}/zsh/site-functions/_mpv
-%if 0%{?fedora} <= 28
+%if 0%{?fedora} = 31
 %{_mandir}/man1/mpv.1.gz
 %endif
 
