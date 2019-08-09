@@ -24,7 +24,7 @@
 Name:           mpv
 Version:        0.29.1
 Epoch:		1
-Release:        12%{?gver}%{dist}
+Release:        13%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -67,7 +67,7 @@ BuildRequires:  pkgconfig(rubberband)
 BuildRequires:  pkgconfig(smbclient)
 BuildRequires:  pkgconfig(uchardet) >= 0.0.5
 BuildRequires:  pkgconfig(vdpau)
-BuildRequires:	pkgconfig(dav1d) >= 0.3.1
+BuildRequires:	pkgconfig(dav1d) >= 0.4.0
 %if 0%{?fedora} >= 29
 BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-cursor)
@@ -307,6 +307,9 @@ fi
 
 
 %changelog
+
+* Thu Aug 08 2019 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.29.1-13.git69c93b6 
+- Rebuilt for dav1d
 
 * Sat Aug 03 2019 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.29.1-12.git69c93b6 
 - Rebuilt for x265
