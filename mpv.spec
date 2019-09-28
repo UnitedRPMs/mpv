@@ -24,7 +24,7 @@
 Name:           mpv
 Version:        0.29.1
 Epoch:		1
-Release:        13%{?gver}%{dist}
+Release:        14%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -307,6 +307,9 @@ fi
 
 
 %changelog
+
+* Fri Sep 27 2019 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.29.1-14.git69c93b6 
+- Rebuilt for zimg
 
 * Thu Aug 08 2019 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.29.1-13.git69c93b6 
 - Rebuilt for dav1d
