@@ -1,14 +1,14 @@
 %global _hardened_build 1
 
 # globals for mpv-build
-%global commit1 7608d209c3c32c8192feeee51b67c22547a1eb35
+%global commit1 485c08ed464082563db4bc96d892e37dba5c1bba
 
 # globals for ffmpeg
-%global commit2 01994c93db43e50c01349203a76c0b7111d1d2f3
+%global commit2 a269fa044b1364af1654456c33b7d45407822876
 %global shortcommit2 %(c=%{commit2}; echo ${c:0:7})
 
 #globals for mpv
-%global commit0 69c93b6f0e669780cb1883d21d818ee14a590b8e
+%global commit0 3a8abbee2fd25f9d137098cd4ed9f7cedf478fbd
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
@@ -22,9 +22,9 @@
 
 
 Name:           mpv
-Version:        0.29.1
+Version:        0.30.0
 Epoch:		1
-Release:        15%{?gver}%{dist}
+Release:        7%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -67,7 +67,7 @@ BuildRequires:  pkgconfig(rubberband)
 BuildRequires:  pkgconfig(smbclient)
 BuildRequires:  pkgconfig(uchardet) >= 0.0.5
 BuildRequires:  pkgconfig(vdpau)
-BuildRequires:	pkgconfig(dav1d) >= 0.5.0
+BuildRequires:	pkgconfig(dav1d) >= 0.5.1
 %if 0%{?fedora} >= 29
 BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-cursor)
@@ -222,12 +222,10 @@ _mpv_options=(
     '--disable-build-date'
     '--enable-libmpv-shared'
     '--enable-sdl2'
-    '--enable-dvdread'
     '--enable-dvdnav'
     '--enable-cdda'
     '--enable-dvb'
     '--enable-libarchive'
-    '--enable-zsh-comp'
     '--disable-lgpl'
     '--enable-javascript'
 %if 0%{?fedora} >= 29
@@ -307,6 +305,9 @@ fi
 
 
 %changelog
+
+* Tue Oct 29 2019 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.30.0-7.git3a8abbe
+- Updated to 0.30.0
 
 * Fri Oct 18 2019 Unitedrpms Project <unitedrpms AT protonmail DOT com> 0.29.1-15.git69c93b6 
 - Rebuilt for dav1d
