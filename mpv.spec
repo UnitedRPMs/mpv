@@ -24,7 +24,7 @@
 Name:           mpv
 Version:        0.30.0
 Epoch:		1
-Release:        7%{?gver}%{dist}
+Release:        8%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -106,7 +106,7 @@ BuildRequires:	autoconf
 
 # ffmpeg
 BuildRequires:	xvidcore-devel x264-devel lame-devel twolame-devel twolame-devel yasm ladspa-devel libbs2b-devel libmysofa-devel game-music-emu-devel soxr-devel libssh-devel libvpx-devel libvorbis-devel opus-devel libtheora-devel freetype-devel
-BuildRequires:	x265-devel >= 3.1.2
+BuildRequires:	x265-devel >= 3.2.1
 BuildRequires:	nvenc-devel 
 BuildRequires:	nv-codec-headers
 BuildRequires:  libaom-devel
@@ -305,6 +305,9 @@ fi
 
 
 %changelog
+
+* Sun Dec 01 2019 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.30.0-8.git3a8abbe
+- Rebuilt for x265
 
 * Tue Oct 29 2019 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.30.0-7.git3a8abbe
 - Updated to 0.30.0
