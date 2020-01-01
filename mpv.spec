@@ -4,11 +4,11 @@
 %global commit1 485c08ed464082563db4bc96d892e37dba5c1bba
 
 # globals for ffmpeg
-%global commit2 a269fa044b1364af1654456c33b7d45407822876
+%global commit2 192d1d34eb3668fa27f433e96036340e1e5077a0
 %global shortcommit2 %(c=%{commit2}; echo ${c:0:7})
 
 #globals for mpv
-%global commit0 3a8abbee2fd25f9d137098cd4ed9f7cedf478fbd
+%global commit0 091aa96c4d7acb9f6294b108c6053df59fa6cb6e
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
@@ -22,9 +22,9 @@
 
 
 Name:           mpv
-Version:        0.30.0
+Version:        0.31.0
 Epoch:		1
-Release:        8%{?gver}%{dist}
+Release:        7%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -34,8 +34,7 @@ Source2:	https://git.ffmpeg.org/gitweb/ffmpeg.git/snapshot/%{commit2}.tar.gz#/ff
 Source3:	https://waf.io/waf-%{waf_release}
 Source4:	https://github.com/libass/libass/releases/download/%{libass_release}/libass-%{libass_release}.tar.gz
 Patch:		_usetarball.patch
-Patch1:		libass_fix.patch
-Patch2:		python_fix.patch
+Patch1:	libass_fix.patch
 
 BuildRequires:  pkgconfig(alsa)
 BuildRequires:  desktop-file-utils
@@ -109,7 +108,12 @@ BuildRequires:	xvidcore-devel x264-devel lame-devel twolame-devel twolame-devel 
 BuildRequires:	x265-devel >= 3.2.1
 BuildRequires:	nvenc-devel 
 BuildRequires:	nv-codec-headers
-BuildRequires:  libaom-devel
+BuildRequires:	libaom-devel
+# vaapi
+BuildRequires:	cmrt-devel
+BuildRequires:	libva-devel
+BuildRequires:	libva-intel-hybrid-driver
+BuildRequires:	libva-intel-driver
 #
 
 BuildRequires:	git autoconf make automake libtool
@@ -155,7 +159,7 @@ Libmpv development header files and libraries.
 mv -f %{name}-%{commit0} $PWD/%{name}
 mv -f ffmpeg-%{shortcommit2} $PWD/ffmpeg
 cp -f %{name}/LICENSE.GPL %{name}/Copyright $PWD/
-%patch2 -p1
+
 
 # Sorry we need avoid to compile some packages
 %if %{with system_libass}
@@ -182,6 +186,10 @@ echo "%{version}-git%{shortcommit0}" > $PWD/%{name}/VERSION
 #--------------------------------------------------------------
 
 %build
+
+# python3 fix
+find -depth -type f -writable -name "*.py" -exec sed -iE '1s=^#! */usr/bin/\(python\|env python\)[23]\?=#!%{__python3}=' {} +
+sed -i 's|/usr/bin/env python|/usr/bin/python3|g' mpv/TOOLS/umpv
 
 # Set ffmpeg/libass/mpv flags
   _ffmpeg_options=(
@@ -210,6 +218,7 @@ echo "%{version}-git%{shortcommit0}" > $PWD/%{name}/VERSION
     '--enable-libaom'
     '--enable-gpl'
     '--enable-nonfree'
+    '--enable-vaapi'
     )
 
 _mpv_options=(
@@ -305,6 +314,9 @@ fi
 
 
 %changelog
+
+* Sun Dec 01 2019 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.31.0-7.git091aa96
+- Updated to 0.31.0
 
 * Sun Dec 01 2019 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.30.0-8.git3a8abbe
 - Rebuilt for x265
