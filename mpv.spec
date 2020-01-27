@@ -4,11 +4,11 @@
 %global commit1 485c08ed464082563db4bc96d892e37dba5c1bba
 
 # globals for ffmpeg
-%global commit2 192d1d34eb3668fa27f433e96036340e1e5077a0
+%global commit2 19bfd7212695b456352e258c9ee50882583ce12f
 %global shortcommit2 %(c=%{commit2}; echo ${c:0:7})
 
 #globals for mpv
-%global commit0 091aa96c4d7acb9f6294b108c6053df59fa6cb6e
+%global commit0 70b991749df389bcc0a4e145b5687233a03b4ed7
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
@@ -22,7 +22,7 @@
 
 
 Name:           mpv
-Version:        0.31.0
+Version:        0.32.0
 Epoch:		1
 Release:        7%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
@@ -314,6 +314,9 @@ fi
 
 
 %changelog
+
+* Sun Jan 26 2020 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.32.0-7.git70b9917
+- Updated to 0.32.0
 
 * Sun Dec 01 2019 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.31.0-7.git091aa96
 - Updated to 0.31.0
