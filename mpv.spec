@@ -302,6 +302,7 @@ fi
 %if 0%{?fedora} >= 31
 %{_mandir}/man1/mpv.1.gz
 %endif
+%{_datadir}/bash-completion/completions/mpv
 
 %files libs
 %license LICENSE.GPL Copyright
