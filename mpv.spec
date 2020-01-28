@@ -88,6 +88,7 @@ BuildRequires:  pkgconfig(xv)
 BuildRequires:  pkgconfig(zlib)
 BuildRequires:  python-docutils
 BuildRequires:	pkgconfig(mujs) >= 1.0.4-2
+BuildRequires:	pkgconfig(libarchive)
 
 BuildRequires:  perl(Math::BigInt)
 BuildRequires:  perl(Math::BigRat)
@@ -243,6 +244,10 @@ _mpv_options=(
     '--enable-wayland-protocols'
     '--enable-gl-wayland'
     '--enable-vaapi-wayland'
+    '--enable-libarchive'
+%endif
+%if 0%{?fedora} <= 30
+    '--disable-libarchive'
 %endif
 )
 
