@@ -1,3 +1,19 @@
+#
+# spec file for package mpv
+#
+# Copyright (c) 2020 UnitedRPMs.
+#
+# All modifications and additions to the file contributed by third parties
+# remain the property of their copyright owners, unless otherwise agreed
+# upon. The license for this file, and modifications and additions to the
+# file, is the same license as for the pristine package itself (unless the
+# license for the pristine package is not an Open Source License, in which
+# case the license is the MIT License). An "Open Source License" is a
+# license that conforms to the Open Source Definition (Version 1.9)
+# published by the Open Source Initiative.
+
+# Please submit bugfixes or comments via https://goo.gl/zqFJft
+
 %global _hardened_build 1
 
 # globals for mpv-build
@@ -24,7 +40,7 @@
 Name:           mpv
 Version:        0.32.0
 Epoch:		1
-Release:        7%{?gver}%{dist}
+Release:        8%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -74,7 +90,11 @@ BuildRequires:  wayland-devel
 BuildRequires:	pkgconfig(wayland-protocols)
 BuildRequires:  pkgconfig(wayland-egl)
 BuildRequires:  pkgconfig(wayland-scanner)
+%if 0%{?fedora} >= 32
+BuildRequires:  libplacebo-devel >= 1.29.1
+%else
 BuildRequires:  libplacebo-devel
+%endif
 BuildRequires:  libshaderc-devel
 %endif
 BuildRequires:  pkgconfig(x11)
@@ -320,6 +340,9 @@ fi
 
 
 %changelog
+
+* Sat Feb 08 2020 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.32.0-8.git70b9917
+- Rebuilt for libplacebo
 
 * Sun Jan 26 2020 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.32.0-7.git70b9917
 - Updated to 0.32.0
