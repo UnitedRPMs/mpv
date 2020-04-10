@@ -17,14 +17,14 @@
 %global _hardened_build 1
 
 # globals for mpv-build
-%global commit1 485c08ed464082563db4bc96d892e37dba5c1bba
+%global commit1 a002a540dd849610b29f66a8284c0aa60ca8db03
 
 # globals for ffmpeg
-%global commit2 19bfd7212695b456352e258c9ee50882583ce12f
+%global commit2 192d1d34eb3668fa27f433e96036340e1e5077a0
 %global shortcommit2 %(c=%{commit2}; echo ${c:0:7})
 
 #globals for mpv
-%global commit0 70b991749df389bcc0a4e145b5687233a03b4ed7
+%global commit0 b4c1554f7a60c7ea05a04e02209359e2f958a8e0
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
@@ -40,7 +40,7 @@
 Name:           mpv
 Version:        0.32.0
 Epoch:		1
-Release:        9%{?gver}%{dist}
+Release:        10%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -49,6 +49,7 @@ Source1:	https://github.com/mpv-player/mpv/archive/%{commit0}.tar.gz#/%{name}.ta
 Source2:	https://git.ffmpeg.org/gitweb/ffmpeg.git/snapshot/%{commit2}.tar.gz#/ffmpeg.tar.gz
 Source3:	https://waf.io/waf-%{waf_release}
 Source4:	https://github.com/libass/libass/releases/download/%{libass_release}/libass-%{libass_release}.tar.gz
+Source5:	io.mpv.mpv.metainfo.xml
 Patch:		_usetarball.patch
 Patch1:	libass_fix.patch
 
@@ -296,6 +297,9 @@ pushd mpv
 install -Dpm 644 README.md etc/input.conf etc/mpv.conf -t %{buildroot}%{_docdir}/%{name}
 popd
 
+# Appdata
+install -Dm 0644 %{S:5} %{buildroot}/%{_metainfodir}/io.mpv.mpv.metainfo.xml
+
 %post
 /usr/bin/update-desktop-database &> /dev/null || :
 /bin/touch --no-create %{_datadir}/icons/hicolor &> /dev/null || :
@@ -328,6 +332,7 @@ fi
 %{_mandir}/man1/mpv.1.gz
 %endif
 %{_datadir}/bash-completion/completions/mpv
+%{_metainfodir}/io.mpv.mpv.metainfo.xml
 
 %files libs
 %license LICENSE.GPL Copyright
@@ -340,6 +345,9 @@ fi
 
 
 %changelog
+
+* Fri Apr 10 2020 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.32.0-10.gitb4c1554f
+- Updated to current commit
 
 * Mon Feb 24 2020 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.32.0-9.git70b9917
 - Rebuilt for x265

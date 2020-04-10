@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.mpv.mpv</id>
+  
+  <name>mpv</name>
+  <summary>Movie player playing most video formats and DVDs</summary>
+  
+  <metadata_license>FSFAP</metadata_license>
+  <project_license>GPL-2.0+</project_license>
+  
+  <description>
+    <p>
+      Mpv is a movie player based on MPlayer and mplayer2. It supports a wide variety of video file formats, audio and video codecs, and subtitle types. Special input URL types are available to read input from a variety of sources other than disk files. Depending on platform, a variety of different video and audio output methods are supported.
+    </p>
+  </description>
+  
+  <launchable type="desktop-id">mpv.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://mpv.io/images/mpv-screenshot-34cd36ae.jpg</image>
+    </screenshot>
+  </screenshots>
+</component>
