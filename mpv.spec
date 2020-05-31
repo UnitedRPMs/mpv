@@ -40,7 +40,7 @@
 Name:           mpv
 Version:        0.32.0
 Epoch:		1
-Release:        10%{?gver}%{dist}
+Release:        11%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -127,7 +127,7 @@ BuildRequires:	autoconf
 
 # ffmpeg
 BuildRequires:	xvidcore-devel x264-devel lame-devel twolame-devel twolame-devel yasm ladspa-devel libbs2b-devel libmysofa-devel game-music-emu-devel soxr-devel libssh-devel libvpx-devel libvorbis-devel opus-devel libtheora-devel freetype-devel
-BuildRequires:	x265-devel >= 3.3
+BuildRequires:	x265-devel >= 3.4
 BuildRequires:	nvenc-devel 
 BuildRequires:	nv-codec-headers
 BuildRequires:	libaom-devel
@@ -139,7 +139,12 @@ BuildRequires:	libva-intel-driver
 #
 
 BuildRequires:	git autoconf make automake libtool
+
+%if 0%{?fedora} >= 33
+BuildRequires:	python3.9-devel
+%else
 BuildRequires:	python3-devel
+%endif
 
 Requires:       hicolor-icon-theme
 Requires: 	mpv-libs = %{version}-%{release}
@@ -346,8 +351,8 @@ fi
 
 %changelog
 
-* Fri Apr 10 2020 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.32.0-10.gitb4c1554f
-- Updated to current commit
+* Sat May 30 2020 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.32.0-11.gitb4c1554f
+- Rebuilt for x265 and python3.9
 
 * Mon Feb 24 2020 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.32.0-9.git70b9917
 - Rebuilt for x265
