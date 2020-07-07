@@ -40,7 +40,7 @@
 Name:           mpv
 Version:        0.32.0
 Epoch:		1
-Release:        11%{?gver}%{dist}
+Release:        12%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -125,12 +125,15 @@ BuildRequires:	automake >= 1.16.1
 BuildRequires:	autoconf
 %endif
 
+#---------------------------------------
 # ffmpeg
-BuildRequires:	xvidcore-devel x264-devel lame-devel twolame-devel twolame-devel yasm ladspa-devel libbs2b-devel libmysofa-devel game-music-emu-devel soxr-devel libssh-devel libvpx-devel libvorbis-devel opus-devel libtheora-devel freetype-devel
+BuildRequires:	xvidcore-devel lame-devel twolame-devel twolame-devel yasm ladspa-devel libbs2b-devel libmysofa-devel game-music-emu-devel soxr-devel libssh-devel libvpx-devel libvorbis-devel opus-devel libtheora-devel freetype-devel vapoursynth-devel
+BuildRequires: x264-devel >= 1.159
 BuildRequires:	x265-devel >= 3.4
 BuildRequires:	nvenc-devel 
 BuildRequires:	nv-codec-headers
 BuildRequires:	libaom-devel
+#---------------------------------------
 # vaapi
 BuildRequires:	cmrt-devel
 BuildRequires:	libva-devel
@@ -246,6 +249,7 @@ sed -i 's|/usr/bin/env python|/usr/bin/python3|g' mpv/TOOLS/umpv
     '--enable-gpl'
     '--enable-nonfree'
     '--enable-vaapi'
+    '--enable-vapoursynth'
     )
 
 _mpv_options=(
@@ -350,6 +354,10 @@ fi
 
 
 %changelog
+
+* Sun Jul 05 2020 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.32.0-12.gitb4c1554f
+- Rebuilt for x264
+- Enable vapoursynth
 
 * Sat May 30 2020 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.32.0-11.gitb4c1554f
 - Rebuilt for x265 and python3.9
