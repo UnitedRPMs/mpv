@@ -40,7 +40,7 @@
 Name:           mpv
 Version:        0.32.0
 Epoch:		1
-Release:        13%{?gver}%{dist}
+Release:        14%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -83,7 +83,11 @@ BuildRequires:  pkgconfig(rubberband)
 BuildRequires:  pkgconfig(smbclient)
 BuildRequires:  pkgconfig(uchardet) >= 0.0.5
 BuildRequires:  pkgconfig(vdpau)
-BuildRequires:	pkgconfig(dav1d) >= 0.5.1
+%if 0%{?fedora} >= 32
+BuildRequires:	pkgconfig(dav1d) >= 0.7.1
+%else
+BuildRequires:	pkgconfig(dav1d) >= 0.5.2
+%endif
 %if 0%{?fedora} >= 29
 BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-cursor)
@@ -358,6 +362,9 @@ fi
 
 
 %changelog
+
+* Mon Aug 17 2020 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.32.0-14.gitb4c1554f
+- Rebuilt for dav1d
 
 * Wed Jul 08 2020 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.32.0-13.gitb4c1554f
 - Rebuilt for aom
