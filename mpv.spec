@@ -20,11 +20,11 @@
 %global commit1 a002a540dd849610b29f66a8284c0aa60ca8db03
 
 # globals for ffmpeg
-%global commit2 192d1d34eb3668fa27f433e96036340e1e5077a0
+%global commit2 ca55240b8c1fd4cfdb61f88fd2cb378d475d910a
 %global shortcommit2 %(c=%{commit2}; echo ${c:0:7})
 
 #globals for mpv
-%global commit0 b4c1554f7a60c7ea05a04e02209359e2f958a8e0
+%global commit0 0728b514980cccd13543eea53a8e23332e233a6c
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
@@ -38,9 +38,9 @@
 
 
 Name:           mpv
-Version:        0.32.0
+Version:        0.33.0
 Epoch:		1
-Release:        14%{?gver}%{dist}
+Release:        7%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -56,7 +56,11 @@ Patch1:	libass_fix.patch
 BuildRequires:  pkgconfig(alsa)
 BuildRequires:  desktop-file-utils
 BuildRequires:  pkgconfig(dvdnav)
+%if 0%{?fedora} >= 34
+BuildRequires:  pkgconfig(dvdread) >= 6.1.1
+%else
 BuildRequires:  pkgconfig(dvdread)
+%endif
 BuildRequires:  pkgconfig(egl)
 BuildRequires:  pkgconfig(enca)
 #BuildRequires:  ffmpeg-devel
@@ -132,7 +136,7 @@ BuildRequires:	autoconf
 #---------------------------------------
 # ffmpeg
 BuildRequires:	xvidcore-devel lame-devel twolame-devel twolame-devel yasm ladspa-devel libbs2b-devel libmysofa-devel game-music-emu-devel soxr-devel libssh-devel libvpx-devel libvorbis-devel opus-devel libtheora-devel freetype-devel vapoursynth-devel
-BuildRequires: x264-devel >= 1.159
+BuildRequires: x264-devel >= 1:0.161
 BuildRequires:	x265-devel >= 3.4
 BuildRequires:	nvenc-devel 
 BuildRequires:	nv-codec-headers
@@ -362,6 +366,12 @@ fi
 
 
 %changelog
+
+* Mon Nov 23 2020 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.33.0-7.git0728b51
+- Updated to 0.33.0
+
+* Sun Nov 01 2020 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.32.0-15.gitb4c1554f
+- Rebuilt for libdvdread
 
 * Mon Aug 17 2020 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.32.0-14.gitb4c1554f
 - Rebuilt for dav1d
