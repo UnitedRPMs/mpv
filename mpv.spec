@@ -1,7 +1,7 @@
 #
 # spec file for package mpv
 #
-# Copyright (c) 2020 UnitedRPMs.
+# Copyright (c) 2021 UnitedRPMs.
 #
 # All modifications and additions to the file contributed by third parties
 # remain the property of their copyright owners, unless otherwise agreed
@@ -15,21 +15,24 @@
 # Please submit bugfixes or comments via https://goo.gl/zqFJft
 
 %global _hardened_build 1
+#define _legacy_common_support 1
+%global _lto_cflags %{nil}
 
 # globals for mpv-build
-%global commit1 a002a540dd849610b29f66a8284c0aa60ca8db03
+%global commit1 abd0009b7a6ecef7ebc8cd956c494c22b77f0dd3
+%global shortcommit1 %(c=%{commit1}; echo ${c:0:7})
 
 # globals for ffmpeg
 %global commit2 ca55240b8c1fd4cfdb61f88fd2cb378d475d910a
 %global shortcommit2 %(c=%{commit2}; echo ${c:0:7})
 
 #globals for mpv
-%global commit0 0728b514980cccd13543eea53a8e23332e233a6c
+%global commit0 6265724f3331e3dee8d9ec2b6639def5004a5fa2
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
 # globals for waf (required for mpv)
-%global waf_release 2.0.9
+%global waf_release 2.0.20
 
 # globals for libass
 %global libass_release 0.14.0
@@ -40,13 +43,13 @@
 Name:           mpv
 Version:        0.33.0
 Epoch:		1
-Release:        8%{?gver}%{dist}
+Release:        9%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
-Source0:        https://github.com/mpv-player/mpv-build/archive/%{commit1}.tar.gz#/mpv-build.tar.gz
-Source1:	https://github.com/mpv-player/mpv/archive/%{commit0}.tar.gz#/%{name}.tar.gz
-Source2:	https://git.ffmpeg.org/gitweb/ffmpeg.git/snapshot/%{commit2}.tar.gz#/ffmpeg.tar.gz
+Source0:        https://github.com/mpv-player/mpv-build/archive/%{commit1}.tar.gz#/mpv-build-%{shortcommit1}.tar.gz
+Source1:	https://github.com/mpv-player/mpv/archive/%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
+Source2:	https://git.ffmpeg.org/gitweb/ffmpeg.git/snapshot/%{commit2}.tar.gz#/ffmpeg-%{shortcommit2}.tar.gz
 Source3:	https://waf.io/waf-%{waf_release}
 Source4:	https://github.com/libass/libass/releases/download/%{libass_release}/libass-%{libass_release}.tar.gz
 Source5:	io.mpv.mpv.metainfo.xml
@@ -78,7 +81,7 @@ BuildRequires:  pkgconfig(libguess)
 BuildRequires:  libjpeg-turbo-devel
 BuildRequires:  pkgconfig(libpulse)
 BuildRequires:  pkgconfig(libv4l2)
-BuildRequires:  pkgconfig(libquvi-0.9)
+#BuildRequires:  libquvi-devel
 BuildRequires:  pkgconfig(libva)
 BuildRequires:  pkgconfig(lua-5.1)
 BuildRequires:  pkgconfig(openssl)
@@ -366,6 +369,9 @@ fi
 
 
 %changelog
+
+* Sat Mar 27 2021 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.33.0-9.git6265724
+- Updated to current commit
 
 * Thu Dec 17 2020 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.33.0-8.git0728b51
 - Rebuilt for dav1d
