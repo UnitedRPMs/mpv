@@ -43,7 +43,7 @@
 Name:           mpv
 Version:        0.33.0
 Epoch:		1
-Release:        9%{?gver}%{dist}
+Release:        10%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -138,8 +138,13 @@ BuildRequires:	autoconf
 
 #---------------------------------------
 # ffmpeg
-BuildRequires:	xvidcore-devel lame-devel twolame-devel twolame-devel yasm ladspa-devel libbs2b-devel libmysofa-devel game-music-emu-devel soxr-devel libssh-devel libvpx-devel libvorbis-devel opus-devel libtheora-devel freetype-devel vapoursynth-devel
-BuildRequires: x264-devel >= 1:0.161
+BuildRequires:	xvidcore-devel lame-devel twolame-devel twolame-devel yasm ladspa-devel libbs2b-devel libmysofa-devel game-music-emu-devel soxr-devel libssh-devel libvpx-devel libvorbis-devel opus-devel libtheora-devel freetype-devel 
+%if 0%{?fedora} >= 32
+BuildRequires:	vapoursynth-devel >= 51
+%else
+BuildRequires:	vapoursynth-devel
+%endif
+BuildRequires:	x264-devel >= 1:0.161
 BuildRequires:	x265-devel >= 3.4
 BuildRequires:	nvenc-devel 
 BuildRequires:	nv-codec-headers
@@ -369,6 +374,9 @@ fi
 
 
 %changelog
+
+* Wed Apr 07 2021 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.33.0-10.git6265724
+- Rebuilt
 
 * Sat Mar 27 2021 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.33.0-9.git6265724
 - Updated to current commit
