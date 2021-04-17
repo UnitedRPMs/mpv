@@ -19,15 +19,15 @@
 %global _lto_cflags %{nil}
 
 # globals for mpv-build
-%global commit1 abd0009b7a6ecef7ebc8cd956c494c22b77f0dd3
+%global commit1 af71eb6d5e1ff77d8f9ae9195312603ced5c5d87
 %global shortcommit1 %(c=%{commit1}; echo ${c:0:7})
 
 # globals for ffmpeg
-%global commit2 ca55240b8c1fd4cfdb61f88fd2cb378d475d910a
+%global commit2 dc91b913b6260e85e1304c74ff7bb3c22a8c9fb1
 %global shortcommit2 %(c=%{commit2}; echo ${c:0:7})
 
 #globals for mpv
-%global commit0 6265724f3331e3dee8d9ec2b6639def5004a5fa2
+%global commit0 cd7a7a1de8d8bffa05170befef25b251711c994a
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
@@ -41,9 +41,9 @@
 
 
 Name:           mpv
-Version:        0.33.0
+Version:        0.33.1
 Epoch:		1
-Release:        10%{?gver}%{dist}
+Release:        7%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -54,7 +54,7 @@ Source3:	https://waf.io/waf-%{waf_release}
 Source4:	https://github.com/libass/libass/releases/download/%{libass_release}/libass-%{libass_release}.tar.gz
 Source5:	io.mpv.mpv.metainfo.xml
 Patch:		_usetarball.patch
-Patch1:	libass_fix.patch
+Patch1:		libass_fix.patch
 
 BuildRequires:  pkgconfig(alsa)
 BuildRequires:  desktop-file-utils
@@ -185,7 +185,7 @@ output methods are supported.
 Summary: Dynamic library for Mpv frontends
 Provides: %{name}-libs = %{version}-%{release} 
 Provides: libmpv = 1:%{version}-%{release}
-
+Requires: vulkan-loader
 
 %description libs
 This package contains the dynamic library libmpv, which provides access to Mpv.
@@ -374,6 +374,9 @@ fi
 
 
 %changelog
+
+* Fri Apr 16 2021 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.33.1-7.gitb5d3e43
+- Updated to 0.33.1
 
 * Wed Apr 07 2021 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.33.0-10.git6265724
 - Rebuilt
