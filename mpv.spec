@@ -43,7 +43,7 @@
 Name:           mpv
 Version:        0.33.1
 Epoch:		1
-Release:        7%{?gver}%{dist}
+Release:        8%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -145,7 +145,7 @@ BuildRequires:	vapoursynth-devel >= 51
 BuildRequires:	vapoursynth-devel
 %endif
 BuildRequires:	x264-devel >= 1:0.161
-BuildRequires:	x265-devel >= 3.4
+BuildRequires:	x265-devel >= 3.5
 BuildRequires:	nvenc-devel 
 BuildRequires:	nv-codec-headers
 %if 0%{?fedora} >= 33
@@ -374,6 +374,9 @@ fi
 
 
 %changelog
+
+* Tue May 11 2021 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.33.1-8.gitb5d3e43
+- Rebuilt for x265
 
 * Fri Apr 16 2021 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.33.1-7.gitb5d3e43
 - Updated to 0.33.1
