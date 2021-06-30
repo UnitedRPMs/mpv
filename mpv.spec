@@ -43,7 +43,7 @@
 Name:           mpv
 Version:        0.33.1
 Epoch:		1
-Release:        8%{?gver}%{dist}
+Release:        10%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -148,8 +148,8 @@ BuildRequires:	x264-devel >= 1:0.161
 BuildRequires:	x265-devel >= 3.5
 BuildRequires:	nvenc-devel 
 BuildRequires:	nv-codec-headers
-%if 0%{?fedora} >= 33
-BuildRequires:  libaom-devel >= 2.0.0
+%if 0%{?fedora} >= 34
+BuildRequires:  libaom-devel >= 3.1.1
 %else
 BuildRequires:  libaom-devel
 %endif 
@@ -163,11 +163,7 @@ BuildRequires:	libva-intel-driver
 
 BuildRequires:	git autoconf make automake libtool
 
-%if 0%{?fedora} >= 33
-BuildRequires:	python3.9-devel
-%else
 BuildRequires:	python3-devel
-%endif
 
 Requires:       hicolor-icon-theme
 Requires: 	mpv-libs = %{version}-%{release}
@@ -374,6 +370,9 @@ fi
 
 
 %changelog
+
+* Fri Jun 18 2021 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.33.1-10.gitb5d3e43
+- Rebuilt for aom
 
 * Tue May 11 2021 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.33.1-8.gitb5d3e43
 - Rebuilt for x265
