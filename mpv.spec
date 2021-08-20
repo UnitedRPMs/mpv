@@ -43,7 +43,7 @@
 Name:           mpv
 Version:        0.33.1
 Epoch:		1
-Release:        10%{?gver}%{dist}
+Release:        11%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -90,6 +90,7 @@ BuildRequires:  pkgconfig(rubberband)
 BuildRequires:  pkgconfig(smbclient)
 BuildRequires:  pkgconfig(uchardet) >= 0.0.5
 BuildRequires:  pkgconfig(vdpau)
+BuildRequires:  libv4l-devel
 %if 0%{?fedora} >= 34
 BuildRequires:	pkgconfig(dav1d) >= 0.8.0
 %else
@@ -144,7 +145,7 @@ BuildRequires:	vapoursynth-devel >= 51
 %else
 BuildRequires:	vapoursynth-devel
 %endif
-BuildRequires:	x264-devel >= 1:0.161
+BuildRequires:	x264-devel >= 1:0.163
 BuildRequires:	x265-devel >= 3.5
 BuildRequires:	nvenc-devel 
 BuildRequires:	nv-codec-headers
@@ -280,7 +281,9 @@ _mpv_options=(
     '--enable-sdl2'
     '--enable-dvdnav'
     '--enable-cdda'
+    %if 0%{?fedora} <= 34
     '--enable-dvb'
+    %endif
     '--enable-libarchive'
     '--disable-lgpl'
     '--enable-javascript'
@@ -370,6 +373,9 @@ fi
 
 
 %changelog
+
+* Mon Aug 16 2021 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.33.1-11.gitb5d3e43
+- Rebuilt for x264
 
 * Fri Jun 18 2021 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.33.1-10.gitb5d3e43
 - Rebuilt for aom
