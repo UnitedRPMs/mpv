@@ -19,7 +19,7 @@
 %global _lto_cflags %{nil}
 
 # globals for mpv-build
-%global commit1 af71eb6d5e1ff77d8f9ae9195312603ced5c5d87
+%global commit1 836df3589b47ab689411c3949cb699c8f2038914
 %global shortcommit1 %(c=%{commit1}; echo ${c:0:7})
 
 # globals for ffmpeg
@@ -27,7 +27,7 @@
 %global shortcommit2 %(c=%{commit2}; echo ${c:0:7})
 
 #globals for mpv
-%global commit0 cd7a7a1de8d8bffa05170befef25b251711c994a
+%global commit0 c27c17fcabf4927065ab007882f0a67f2a574317
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
@@ -43,7 +43,7 @@
 Name:           mpv
 Version:        0.33.1
 Epoch:		1
-Release:        11%{?gver}%{dist}
+Release:        12%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -373,6 +373,10 @@ fi
 
 
 %changelog
+
+* Sat Oct 02 2021 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.33.1-12.gitc27c17f
+- Updated to current commit
+- Updated to ffmpeg 4.4 
 
 * Mon Aug 16 2021 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.33.1-11.gitb5d3e43
 - Rebuilt for x264
