@@ -15,7 +15,7 @@
 # Please submit bugfixes or comments via https://goo.gl/zqFJft
 
 %global _hardened_build 1
-#define _legacy_common_support 1
+%define _legacy_common_support 1
 %global _lto_cflags %{nil}
 
 # globals for mpv-build
@@ -27,12 +27,15 @@
 %global shortcommit2 %(c=%{commit2}; echo ${c:0:7})
 
 #globals for mpv
-%global commit0 c27c17fcabf4927065ab007882f0a67f2a574317
+%global commit0 459f7d4a8d7f303782e4288bdaf0b9c20c9a47a9
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
 # globals for waf (required for mpv)
 %global waf_release 2.0.20
+
+%global waf_build ./waf
+
 
 # globals for libass
 %global libass_release 0.14.0
@@ -41,9 +44,9 @@
 
 
 Name:           mpv
-Version:        0.33.1
+Version:        0.34.0
 Epoch:		1
-Release:        12%{?gver}%{dist}
+Release:        7%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -103,6 +106,7 @@ BuildRequires:  wayland-devel
 BuildRequires:	pkgconfig(wayland-protocols)
 BuildRequires:  pkgconfig(wayland-egl)
 BuildRequires:  pkgconfig(wayland-scanner)
+BuildRequires:	libva-devel
 %if 0%{?fedora} >= 32
 BuildRequires:  libplacebo-devel >= 1.29.1
 %else
@@ -112,6 +116,7 @@ BuildRequires:  libshaderc-devel
 %endif
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  pkgconfig(vulkan)
+BuildRequires:  libvulkan.so.1
 BuildRequires:  pkgconfig(xext)
 BuildRequires:  pkgconfig(xinerama)
 BuildRequires:  pkgconfig(xkbcommon)
@@ -145,12 +150,13 @@ BuildRequires:	vapoursynth-devel >= 51
 %else
 BuildRequires:	vapoursynth-devel
 %endif
-BuildRequires:	x264-devel >= 1:0.163
+BuildRequires:	x264-devel >= 1:0.161
 BuildRequires:	x265-devel >= 3.5
 BuildRequires:	nvenc-devel 
 BuildRequires:	nv-codec-headers
 %if 0%{?fedora} >= 34
 BuildRequires:  libaom-devel >= 3.1.1
+BuildRequires:	libpulsecommon-15.0.so
 %else
 BuildRequires:  libaom-devel
 %endif 
@@ -165,6 +171,10 @@ BuildRequires:	libva-intel-driver
 BuildRequires:	git autoconf make automake libtool
 
 BuildRequires:	python3-devel
+
+%if 0%{?fedora} >= 34
+BuildRequires:	waf
+%endif
 
 Requires:       hicolor-icon-theme
 Requires: 	mpv-libs = %{version}-%{release}
@@ -236,7 +246,7 @@ echo "%{version}-git%{shortcommit0}" > $PWD/%{name}/VERSION
 
 # python3 fix
 find -depth -type f -writable -name "*.py" -exec sed -iE '1s=^#! */usr/bin/\(python\|env python\)[23]\?=#!%{__python3}=' {} +
-sed -i 's|/usr/bin/env python|/usr/bin/python3|g' mpv/TOOLS/umpv
+sed -i "s|/usr/bin/env python|/usr/bin/%{__python3}|g" mpv/TOOLS/umpv
 
 # Set ffmpeg/libass/mpv flags
   _ffmpeg_options=(
@@ -282,8 +292,9 @@ _mpv_options=(
     '--enable-dvdnav'
     '--enable-cdda'
     %if 0%{?fedora} <= 34
-    '--enable-dvb'
+    '--enable-dvb'  
     %endif
+    '--enable-vaapi-wayland'
     '--enable-libarchive'
     '--disable-lgpl'
     '--enable-javascript'
@@ -292,8 +303,8 @@ _mpv_options=(
     '--enable-wayland-scanner'
     '--enable-wayland-protocols'
     '--enable-gl-wayland'
-    '--enable-vaapi-wayland'
     '--enable-libarchive'
+    '--disable-caca'
 %endif
 %if 0%{?fedora} <= 30
     '--disable-libarchive'
@@ -312,9 +323,25 @@ _mpv_options=(
 echo '#!/bin/sh
 set -e
 
+	# Not for us
+	mywafargs+=(
+		--disable-android
+		--disable-egl-android
+		--disable-uwp
+		--disable-audiounit
+		--disable-macos-media-player
+		--disable-wasapi
+		--disable-ios-gl
+		--disable-macos-touchbar
+		--disable-macos-cocoa-cb
+		--disable-tvos
+		--disable-egl-angle-win32
+	)
+
+
 cd mpv
 
-./waf install --destdir=%{buildroot}' > scripts/mpv-install
+%{waf_build} "${mywafargs[@]}" install --destdir=%{buildroot}' > scripts/mpv-install
 chmod a+x scripts/mpv-install
 
 
@@ -373,6 +400,9 @@ fi
 
 
 %changelog
+
+* Sat Nov 06 2021 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.34.0-12.git9ca9066
+- Updated to 0.34.0
 
 * Sat Oct 02 2021 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.33.1-12.gitc27c17f
 - Updated to current commit
