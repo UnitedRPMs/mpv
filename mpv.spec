@@ -156,10 +156,12 @@ BuildRequires:	nvenc-devel
 BuildRequires:	nv-codec-headers
 %if 0%{?fedora} >= 34
 BuildRequires:  libaom-devel >= 3.1.1
-BuildRequires:	libpulsecommon-15.0.so
 %else
 BuildRequires:  libaom-devel
 %endif 
+%if 0%{?fedora} >= 35
+BuildRequires:	libpulsecommon-15.0.so
+%endif
 #---------------------------------------
 # vaapi
 BuildRequires:	cmrt-devel
