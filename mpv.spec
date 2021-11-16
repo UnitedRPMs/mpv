@@ -203,6 +203,8 @@ This package contains the dynamic library libmpv, which provides access to Mpv.
 Summary: Development package for libmpv
 Provides: %{name}-devel = 1:%{version}-%{release} 
 Requires: mpv = %{version}-%{release}
+Requires: opus
+Requires: libogg
 Provides: libmpv-devel = %{version}-%{release}
 Provides: %{name}-libs-devel = %{version}-%{release}
 
