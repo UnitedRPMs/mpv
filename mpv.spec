@@ -31,11 +31,11 @@
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global gver .git%{shortcommit0}
 
+
 # globals for waf (required for mpv)
-%global waf_release 2.0.20
+%global waf_release 2.0.22
 
 %global waf_build ./waf
-
 
 # globals for libass
 %global libass_release 0.14.0
@@ -46,7 +46,7 @@
 Name:           mpv
 Version:        0.34.0
 Epoch:		1
-Release:        7%{?gver}%{dist}
+Release:        8%{?gver}%{dist}
 Summary:        Movie player playing most video formats and DVDs
 License:        GPLv2+
 URL:            http://%{name}.io/
@@ -57,7 +57,7 @@ Source3:	https://waf.io/waf-%{waf_release}
 Source4:	https://github.com/libass/libass/releases/download/%{libass_release}/libass-%{libass_release}.tar.gz
 Source5:	io.mpv.mpv.metainfo.xml
 Patch:		_usetarball.patch
-Patch1:		libass_fix.patch
+#Patch1:		libass_fix.patch
 
 BuildRequires:  pkgconfig(alsa)
 BuildRequires:  desktop-file-utils
@@ -128,6 +128,7 @@ BuildRequires:  python-docutils
 BuildRequires:	pkgconfig(mujs) >= 1.0.4-2
 BuildRequires:	pkgconfig(libarchive)
 
+
 BuildRequires:  perl(Math::BigInt)
 BuildRequires:  perl(Math::BigRat)
 BuildRequires:  perl(Encode)
@@ -174,9 +175,12 @@ BuildRequires:	git autoconf make automake libtool
 
 BuildRequires:	python3-devel
 
-%if 0%{?fedora} >= 34
-BuildRequires:	waf
+%if 0%{?fedora} >= 35
+BuildRequires:	libjxl-devel >= 0.6.1
+%else
+BuildRequires:	libjxl-devel 
 %endif
+
 
 Requires:       hicolor-icon-theme
 Requires: 	mpv-libs = %{version}-%{release}
@@ -215,7 +219,7 @@ Libmpv development header files and libraries.
 %prep
 %setup -n mpv-build-%{commit1} -a1 -a2 -a4
 %patch -p1
-%patch1 -p1
+#patch1 -p1
 
 mv -f %{name}-%{commit0} $PWD/%{name}
 mv -f ffmpeg-%{shortcommit2} $PWD/ffmpeg
@@ -331,7 +335,6 @@ set -e
 	mywafargs+=(
 		--disable-android
 		--disable-egl-android
-		--disable-uwp
 		--disable-audiounit
 		--disable-macos-media-player
 		--disable-wasapi
@@ -404,6 +407,9 @@ fi
 
 
 %changelog
+
+* Sun Dec 05 2021 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.34.0-13.git9ca9066
+- Rebuilt
 
 * Sat Nov 06 2021 Unitedrpms Project <unitedrpms AT protonmail DOT com> 1:0.34.0-12.git9ca9066
 - Updated to 0.34.0
